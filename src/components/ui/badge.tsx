@@ -12,6 +12,10 @@ const badgeVariants = cva(
         secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
+        // University-specific variants
+        gold: "border-accent bg-accent-light text-accent-foreground",
+        purple: "border-primary/20 bg-primary/10 text-primary",
+        featured: "border-accent bg-accent-light text-accent-foreground font-bold",
       },
     },
     defaultVariants: {
