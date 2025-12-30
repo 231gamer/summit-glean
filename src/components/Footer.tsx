@@ -15,7 +15,7 @@ import {
 const footerLinks = {
   academics: [
     { label: "Undergraduate Programs", href: "#" },
-    { label: "Graduate Programs", href: "#" },
+    // { label: "Graduate Programs", href: "#" }, 
     { label: "Online Learning", href: "#" },
     { label: "Academic Calendar", href: "#" },
     { label: "Libraries", href: "#" },
@@ -176,18 +176,25 @@ export function Footer() {
                   className="flex items-center gap-2 text-primary-foreground/70 hover:text-accent transition-colors"
                 >
                   <Phone className="h-4 w-4" />
-                  (123) 456-7890
+                  (+231) 777-352002
+                </a>
+                <a
+                  href="tel:+1234567890"
+                  className="flex items-center gap-2 text-primary-foreground/70 hover:text-accent transition-colors"
+                >
+                  <Phone className="h-4 w-4" />
+                  (+231) 880-538928
                 </a>
                 <a
                   href="mailto:info@university.edu"
                   className="flex items-center gap-2 text-primary-foreground/70 hover:text-accent transition-colors"
                 >
                   <Mail className="h-4 w-4" />
-                  info@university.edu
+                  info@lcc.edu.lr
                 </a>
                 <div className="flex items-start gap-2 text-primary-foreground/70">
                   <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                  <span>123 University Avenue,<br />City, State 12345</span>
+                  <span>5th Street, Beachside,<br />Monrovia, Liberia</span>
                 </div>
               </div>
             </div>
@@ -198,7 +205,7 @@ export function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-primary-foreground/20">
         <div className="container py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/60">
-          <p>© 2024 University. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Liberia Christian College. All rights reserved.</p>
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             <a href="#" className="hover:text-accent transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-accent transition-colors">Terms of Use</a>
