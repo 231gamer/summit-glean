@@ -26,17 +26,17 @@ export function HeroSection() {
       <div className="container relative z-10">
         <div className="max-w-3xl">
           <span className="inline-block px-4 py-1.5 bg-accent/20 text-accent rounded-full text-sm font-medium mb-6 animate-fade-up">
-            Applications Open for Fall 2025
+            Applications Open for Sem II
           </span>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground leading-tight mb-6 animate-fade-up stagger-1">
-            Shape Your Future at a{" "}
-            <span className="text-gradient-gold">World-Class</span>{" "}
-            Institution
+            Shape Your Future at {" "}
+            <span className="text-gradient-gold">Liberia Christian</span>{" "}
+            College
           </h1>
           
           <p className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed max-w-2xl animate-fade-up stagger-2">
-            Join a community of scholars, innovators, and leaders. Discover programs designed to challenge your thinking and expand your horizons.
+            Liberia Christian College is committed to academic excellence, Christian values, and practical skills that prepare students to lead, serve, and innovate in a changing world.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up stagger-3">

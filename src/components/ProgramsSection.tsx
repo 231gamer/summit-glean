@@ -4,48 +4,50 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Beaker, Scale, Stethoscope, Cpu, Palette, Building2 } from "lucide-react";
 
 const programs = [
-  {
-    icon: Beaker,
-    title: "Sciences & Engineering",
-    description: "Cutting-edge research in physics, chemistry, biology, and engineering disciplines.",
-    programs: ["Physics", "Chemistry", "Biology", "Mechanical Engineering"],
+    {
+    icon: Building2,
+    title: "School of Business",
+    description: "Prepare for leadership in today’s global economy through programs in Accounting, Finance, Management, Entrepreneurship, Project Management, and more.",
+    programs: ["Finance", "Marketing", "Economics"],
     featured: true,
   },
   {
     icon: Scale,
-    title: "Law & Public Policy",
+    title: "School of Liberal Arts",
     description: "Prepare for careers in law, government, and public service leadership.",
     programs: ["Law", "Public Administration", "Political Science"],
     featured: false,
   },
+  
   {
     icon: Stethoscope,
-    title: "Health Sciences",
-    description: "Train to be healthcare leaders with our renowned medical programs.",
+    title: "School of Public Health & Environmental Science",
+    description: "Address critical health and environmental challenges through programs in Public Health and Environmental Science.",
     programs: ["Medicine", "Nursing", "Public Health", "Pharmacy"],
     featured: false,
   },
-  {
-    icon: Cpu,
-    title: "Technology & Computing",
-    description: "Master the technologies shaping our digital future.",
-    programs: ["Computer Science", "Data Science", "Cybersecurity"],
+    {
+    icon: Beaker,
+    title: "School of Science & Technology",
+    description: "Build in-demand technical skills in Computer Networking, Data Science, Management Information Systems, and Telecommunications.",
+    programs: ["Physics", "Chemistry", "Biology", "Mechanical Engineering"],
     featured: true,
   },
   {
-    icon: Palette,
-    title: "Arts & Humanities",
-    description: "Explore creativity, culture, and critical thinking through diverse artistic disciplines.",
-    programs: ["Fine Arts", "Music", "Literature", "Philosophy"],
+    icon: Cpu,
+    title: "Christian Education",
+    description: "Master the technologies shaping our digital future.",
+    programs: ["Theology", "Data Science", "Cybersecurity", "Church Administration"],
     featured: false,
   },
   {
-    icon: Building2,
-    title: "Business & Economics",
-    description: "Develop leadership skills for the global marketplace.",
-    programs: ["MBA", "Finance", "Marketing", "Economics"],
+    icon: Palette,
+    title: "School of Education",
+    description: "Train as an educator and leader with programs in Early Childhood, Primary, Secondary Education, Guidance & Counseling, and Education Management.",
+    programs: ["Fine Arts", "Music", "Literature", "Philosophy"],
     featured: false,
   },
+
 ];
 
 export function ProgramsSection() {
@@ -61,7 +63,7 @@ export function ProgramsSection() {
             Explore Our Programs
           </h2>
           <p className="text-muted-foreground text-lg">
-            Choose from over 200 undergraduate and graduate programs across six distinguished schools.
+            Choose from over 100 undergraduate and professional programs across six distinguished schools.
           </p>
         </div>
 
