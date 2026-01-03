@@ -2,7 +2,7 @@ import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { ProgramsSection } from "@/components/ProgramsSection";
 import { NewsEventsSection } from "@/components/NewsEventsSection";
-import { CampusLifeSection } from "@/components/CampusLifeSection";
+// Campus life section hidden temporarily
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
 
@@ -14,7 +14,7 @@ const Index = () => {
         <HeroSection />
         <ProgramsSection />
         <NewsEventsSection />
-        <CampusLifeSection />
+        {/* CampusLifeSection temporarily hidden */}
         <CTASection />
       </main>
       <Footer />

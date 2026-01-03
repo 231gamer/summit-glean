@@ -10,7 +10,6 @@ import ProgramDetails from "./pages/ProgramDetails";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Apply from "./pages/Apply";
-
 const queryClient = new QueryClient();
 
 const App = () => (
