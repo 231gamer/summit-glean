@@ -1,19 +1,29 @@
-# Project Template
+# Liberia Christian College
 
-This repository is a Vite + React + TypeScript starter using Tailwind CSS and shadcn-style UI components.
+Welcome to the official website of Liberia Christian College. This is the digital home for our vibrant academic community committed to faith-based education, personal growth, and community engagement.
 
-## Project info
+## About Liberia Christian College
 
-- **Local dev**: run the dev server with `npm i` then `npm run dev`.
-- **Build**: `npm run build` produces the production build in the `dist/` folder.
+Liberia Christian College is a premier institution dedicated to providing comprehensive academic programs grounded in Christian values. Our campus fosters an environment where students can pursue academic excellence, develop critical thinking skills, and grow spiritually and personally.
 
-## How to edit and work locally
+## Website Features
+
+- **Academics**: Explore our diverse programs and academic offerings
+- **Campus Life**: Discover student organizations, clubs, and campus activities
+- **Admissions**: Learn about our application process and enrollment requirements
+- **News & Events**: Stay updated with the latest campus news and upcoming events
+- **Programs**: View detailed information about each academic program
+- **Contact**: Connect with our admissions and administrative offices
+
+## Development Setup
+
+To run this project locally:
 
 1. Clone the repository:
 
 ```sh
 git clone <YOUR_GIT_URL>
-cd <YOUR_PROJECT_FOLDER>
+cd lcc-website
 ```
 
 2. Install dependencies and start the dev server:
@@ -23,28 +33,24 @@ npm i
 npm run dev
 ```
 
-3. Useful scripts:
+3. Available scripts:
 
-- `npm run dev` — start development server (Vite)
-- `npm run build` — production build
-- `npm run preview` — preview production build
+- `npm run dev` — start development server
+- `npm run build` — create production build in the `dist/` folder
+- `npm run preview` — preview the production build locally
 - `npm run lint` — run ESLint
-- `npm run typecheck` — run TypeScript type checking (no emit)
+- `npm run typecheck` — run TypeScript type checking
 
-## Technologies used
+## Technologies Used
 
-- Vite
-- React
-- TypeScript
-- Tailwind CSS
-- shadcn-style UI components (Radix + primitives)
+- **Vite** - Fast build tool and dev server
+- **React** - UI framework
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Shadcn UI Components** - High-quality, accessible component library
 
 ## Deployment
 
-This project can be deployed to static hosting (Netlify, Vercel, GitHub Pages) or any static host.
+This website is hosted on static hosting and can be deployed to platforms such as Netlify, Vercel, or GitHub Pages.
 
-## Custom domain
-
-Connect a custom domain using your hosting provider's domain settings. Most hosts provide documentation for connecting DNS and SSL.
-
-If you want, I can add a CI workflow to run lint/typecheck/build on PRs and provide a deploy step.
+For more information about the college, visit our main website or contact our admissions office.
