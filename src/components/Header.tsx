@@ -14,15 +14,9 @@ import {
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  {
-    label: "Academics",
-    href: "/academics",
-    submenu: [
-      { label: "Undergraduate Programs", href: "/academics" },
-      { label: "Research Centers", href: "/academics" },
-      { label: "Academic Calendar", href: "/academics" },
-    ],
-  },
+  { label: "Colleges", href: "/colleges" },
+  // { label: "Research Centers", href: "/academics" },  
+  // { label: "Academic Calendar", href: "/academics" }, 
   {
     label: "Admissions",
     href: "/apply",
