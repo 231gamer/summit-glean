@@ -23,7 +23,7 @@ To run this project locally:
 
 ```sh
 git clone <YOUR_GIT_URL>
-cd lcc-website
+cd summit-glean
 ```
 
 2. Install dependencies and start the dev server:

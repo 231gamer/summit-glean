@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown, Search, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/NavLink";
+import logoImage from "@/assets/lcc-transparent-logo.png";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -58,29 +59,29 @@ export function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       {/* Top bar */}
-      <div className="bg-primary-dark text-primary-foreground py-2 hidden md:block">
+      <div className="bg-primary text-white py-2 hidden md:block border-b">
         <div className="container flex items-center justify-between text-sm">
           <div className="flex items-center gap-6">
-            <a href="tel:+1234567890" className="flex items-center gap-1.5 hover:text-accent transition-colors">
+            <a href="tel:+1234567890" className="flex items-center gap-1.5 hover:text-accent transition-colors text-white">
               <Phone className="h-3.5 w-3.5" />
               <span>(+231) 777-352002 / (+231) 880-538928</span>
             </a>
-            <a href="mailto:info@university.edu" className="flex items-center gap-1.5 hover:text-accent transition-colors">
+            <a href="mailto:info@university.edu" className="flex items-center gap-1.5 hover:text-accent transition-colors text-white">
               <Mail className="h-3.5 w-3.5" />
               <span>info@lcc.edu.lr</span>
             </a>
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-1.5 text-white">
               <MapPin className="h-3.5 w-3.5" />
               <span>5th Street, Beachside, Monrovia, Liberia</span>
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <a href="#alumni" className="hover:text-accent transition-colors">Donate</a>
-            <a href="#give" className="hover:text-accent transition-colors">Alumni</a>
+            <a href="#alumni" className="hover:text-accent transition-colors text-white">Donate</a>
+            <a href="#give" className="hover:text-accent transition-colors text-white">Alumni</a>
             <button
               type="button"
               onClick={() => setIsPortalOpen(true)}
-              className="hover:text-accent transition-colors"
+              className="hover:text-accent transition-colors text-white"
             >
               Student Portal
             </button>
@@ -93,19 +94,17 @@ export function Header() {
         className={cn(
           "transition-all duration-300",
           isScrolled
-            ? "bg-primary shadow-elegant py-3"
-            : "bg-primary/95 backdrop-blur-sm py-4"
+            ? "bg-white shadow-elegant py-3 border-b"
+            : "bg-white/95 backdrop-blur-sm py-4 border-b"
         )}
       >
         <div className="container flex items-center justify-between">
           {/* Logo */}
           <NavLink to="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center font-heading font-bold text-accent-foreground text-lg">
-              LCC
-            </div>
-            <div className="text-primary-foreground">
+            <img src={logoImage} alt="LCC Logo" className="h-10 w-10 object-contain" />
+            <div className="text-primary">
               <div className="font-heading font-bold text-lg leading-tight">Liberia Christian College</div>
-              <div className="text-xs text-primary-foreground/70 tracking-wider uppercase">Est. 1997</div>
+              <div className="text-xs text-primary/70 tracking-wider uppercase">Est. 1997</div>
             </div>
           </NavLink>
 
@@ -121,10 +120,10 @@ export function Header() {
                 <NavLink
                   to={item.href}
                   className={cn(
-                    "flex items-center gap-1 px-4 py-2 text-sm font-medium text-primary-foreground/90 hover:text-accent transition-colors rounded-lg",
+                    "flex items-center gap-1 px-4 py-2 text-sm font-medium text-primary hover:text-accent transition-colors rounded-lg",
                     activeSubmenu === item.label && "text-accent"
                   )}
-                  activeClassName="text-accent bg-primary-foreground/10"
+                  activeClassName="text-accent bg-primary/10"
                 >
                   {item.label}
                   {item.submenu && <ChevronDown className="h-4 w-4" />}
@@ -153,7 +152,7 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10">
+            <Button variant="ghost" size="icon" className="text-primary hover:bg-primary/10">
               <Search className="h-5 w-5" />
             </Button>
             <Button variant="gold" size="default">
@@ -163,7 +162,7 @@ export function Header() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="lg:hidden p-2 text-primary-foreground hover:bg-primary-foreground/10 rounded-lg transition-colors"
+            className="lg:hidden p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
