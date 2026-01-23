@@ -60,30 +60,26 @@ export interface ProgramCategory {
 /**
  * Represents an academic school/college within the university
  * @property {string} name - Official school name
- * @property {string} dean - Dean's full name
- * @property {string} [deanImage] - URL to dean's photo
  * @property {string} description - School mission and overview
  * @property {string[]} programs - List of program names offered
  * @property {"both" | "undergraduate" | "graduate"} type - Degree levels offered
- * @property {number} [established] - Year school was founded
+ * @property {string} [duration] - Program duration (e.g., "4 years", "3.5 years")
+ * @property {string} [creditHours] - Credit hours required (e.g., "120-144")
  * @property {string} [location] - Campus location
  * @property {string} [website] - School website URL
  * @property {string} [contactEmail] - Main contact email
- * @property {number} [facultyCount] - Total faculty members
  * @property {string[]} [researchCenters] - List of research centers/labs
  */
 export interface School {
   name: string;
-  dean: string;
-  deanImage?: string;
   description: string;
   programs: string[];
   type: "both" | "undergraduate" | "graduate";
-  established?: number;
+  duration?: string;
+  creditHours?: string;
   location?: string;
   website?: string;
   contactEmail?: string;
-  facultyCount?: number;
   researchCenters?: string[];
 }
 
