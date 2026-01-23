@@ -30,6 +30,8 @@ const buttonVariants = cva(
           "border-2 border-primary-foreground/80 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 focus-visible:ring-accent",
         tertiary:
           "text-primary hover:text-primary-dark hover:underline underline-offset-4 focus-visible:ring-primary-light",
+        purple:
+          "bg-[#5e27c3] text-white hover:bg-[#ffc527] focus-visible:ring-[#7a3fd1] focus-visible:ring-offset-2",
       },
       size: {
         default: "h-11 px-5 py-2",

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Accordion,
   AccordionContent,
@@ -47,445 +48,23 @@ import {
   Download,
   ArrowRight,
   Menu,
+  AlertCircle,
 } from "lucide-react";
 
-// ==================== TYPES & INTERFACES ====================
-interface Program {
-  id: number;
-  title: string;
-  degree: string;
-  school: string;
-  description: string;
-  featured: boolean;
-  image: string;
-  duration?: string;
-  format?: "Full-time" | "Part-time" | "Online";
-  applicationDeadline?: string;
-  tuition?: string;
-  enrollmentCount?: number;
-}
-
-interface School {
-  name: string;
-  dean: string;
-  deanImage?: string;
-  description: string;
-  programs: string[];
-  type: "both" | "undergraduate" | "graduate";
-  established?: number;
-  location?: string;
-  website?: string;
-  contactEmail?: string;
-  facultyCount?: number;
-  researchCenters?: string[];
-}
-
-interface Statistic {
-  label: string;
-  value: string;
-  icon: React.ComponentType<any>;
-  description?: string;
-}
-
-interface FacultyMember {
-  name: string;
-  title: string;
-  department: string;
-  image: string;
-  researchInterests: string[];
-  email: string;
-}
-
-// ==================== DATA (Would move to separate files) ====================
-const programCategories = [
-  {
-    icon: GraduationCap,
-    title: "Undergraduate",
-    description: "Bachelor's degrees & foundational programs",
-    badge: "65+ programs",
-    href: "/programs?level=undergraduate",
-    color: "bg-blue-50 border-blue-100",
-    iconColor: "text-blue-600",
-  },
-  {
-    icon: BookOpen,
-    title: "Graduate",
-    description: "Master's, Doctoral & advanced studies",
-    badge: "45+ programs",
-    href: "/programs?level=graduate",
-    color: "bg-purple-50 border-purple-100",
-    iconColor: "text-purple-600",
-  },
-  {
-    icon: Monitor,
-    title: "Online Learning",
-    description: "Flexible online & hybrid options",
-    badge: "30+ programs",
-    href: "/programs?format=online",
-    color: "bg-green-50 border-green-100",
-    iconColor: "text-green-600",
-  },
-  {
-    icon: Microscope,
-    title: "Research",
-    description: "Cutting-edge research opportunities",
-    badge: "$45M funding",
-    href: "/research",
-    color: "bg-amber-50 border-amber-100",
-    iconColor: "text-amber-600",
-  },
-  {
-    icon: Briefcase,
-    title: "Professional",
-    description: "Executive education & certificates",
-    badge: "Industry-focused",
-    href: "/programs?type=professional",
-    color: "bg-red-50 border-red-100",
-    iconColor: "text-red-600",
-  },
-  {
-    icon: Globe,
-    title: "International",
-    description: "Study abroad & global programs",
-    badge: "25+ countries",
-    href: "/international",
-    color: "bg-cyan-50 border-cyan-100",
-    iconColor: "text-cyan-600",
-  },
-];
-
-const featuredPrograms: Program[] = [
-  {
-    id: 1,
-    title: "Computer Science",
-    degree: "Bachelor of Science",
-    school: "School of Engineering",
-    description: "Develop expertise in algorithms, AI, and software engineering with hands-on projects.",
-    featured: true,
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=250&fit=crop",
-    duration: "4 years",
-    format: "Full-time",
-    applicationDeadline: "Jan 15, 2024",
-    tuition: "$45,000/year",
-    enrollmentCount: 320,
-  },
-  {
-    id: 2,
-    title: "Business Administration",
-    degree: "Master of Business Administration",
-    school: "Business School",
-    description: "Transform your career with our globally recognized MBA program.",
-    featured: true,
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop",
-    duration: "2 years",
-    format: "Full-time",
-    applicationDeadline: "Mar 1, 2024",
-    tuition: "$65,000/year",
-    enrollmentCount: 180,
-  },
-  {
-    id: 3,
-    title: "Biomedical Engineering",
-    degree: "Bachelor of Science",
-    school: "School of Engineering",
-    description: "Bridge biology and engineering to create innovative healthcare solutions.",
-    featured: false,
-    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=250&fit=crop",
-    duration: "4 years",
-    format: "Full-time",
-    applicationDeadline: "Feb 1, 2024",
-    tuition: "$48,000/year",
-    enrollmentCount: 150,
-  },
-  {
-    id: 4,
-    title: "Psychology",
-    degree: "Bachelor of Arts",
-    school: "College of Arts & Sciences",
-    description: "Understand human behavior and prepare for careers in mental health.",
-    featured: false,
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=250&fit=crop",
-    duration: "4 years",
-    format: "Full-time",
-    applicationDeadline: "Jan 31, 2024",
-    tuition: "$42,000/year",
-    enrollmentCount: 280,
-  },
-  {
-    id: 5,
-    title: "Data Science",
-    degree: "Master of Science",
-    school: "School of Computing",
-    description: "Master the art of extracting insights from complex data sets.",
-    featured: true,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop",
-    duration: "1.5 years",
-    format: "Full-time",
-    applicationDeadline: "Dec 15, 2023",
-    tuition: "$52,000/year",
-    enrollmentCount: 120,
-  },
-  {
-    id: 6,
-    title: "Environmental Studies",
-    degree: "Bachelor of Science",
-    school: "College of Natural Sciences",
-    description: "Address global environmental challenges through interdisciplinary research.",
-    featured: false,
-    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=250&fit=crop",
-    duration: "4 years",
-    format: "Full-time",
-    applicationDeadline: "Feb 15, 2024",
-    tuition: "$44,000/year",
-    enrollmentCount: 90,
-  },
-];
-
-const statistics: Statistic[] = [
-  { 
-    label: "Programs Offered", 
-    value: "145+", 
-    icon: GraduationCap,
-    description: "Across 8 schools & colleges" 
-  },
-  { 
-    label: "Student-Faculty Ratio", 
-    value: "10:1", 
-    icon: Users,
-    description: "Personalized attention" 
-  },
-  { 
-    label: "Research Funding", 
-    value: "$68M", 
-    icon: DollarSign,
-    description: "Annual research expenditure" 
-  },
-  { 
-    label: "Employment Rate", 
-    value: "96%", 
-    icon: Briefcase,
-    description: "Within 6 months of graduation" 
-  },
-  { 
-    label: "International Students", 
-    value: "25%", 
-    icon: Globe,
-    description: "From 70+ countries" 
-  },
-  { 
-    label: "Campus Size", 
-    value: "250 acres", 
-    icon: MapPin,
-    description: "State-of-the-art facilities" 
-  },
-];
-
-const schools: School[] = [
-  {
-    name: "School of Engineering",
-    dean: "Dr. Sarah Mitchell",
-    deanImage: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=100&h=100&fit=crop&crop=face",
-    description: "Leading innovation in technology, bioengineering, and sustainable design with world-class research facilities.",
-    programs: ["Computer Science", "Mechanical Engineering", "Biomedical Engineering", "Civil Engineering", "Electrical Engineering", "Chemical Engineering"],
-    type: "both",
-    established: 1955,
-    location: "Engineering Quad",
-    website: "engineering.university.edu",
-    contactEmail: "engineering@university.edu",
-    facultyCount: 145,
-    researchCenters: ["AI Research Center", "Sustainable Energy Lab", "Biotech Innovation Hub"],
-  },
-  {
-    name: "Business School",
-    dean: "Dr. Michael Chen",
-    deanImage: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face",
-    description: "Developing tomorrow's business leaders with a global perspective through experiential learning.",
-    programs: ["Business Administration", "Finance", "Marketing", "Entrepreneurship", "Supply Chain Management", "Data Analytics"],
-    type: "both",
-    established: 1972,
-    location: "Business District",
-    website: "business.university.edu",
-    contactEmail: "business@university.edu",
-    facultyCount: 89,
-    researchCenters: ["Center for Entrepreneurship", "Financial Markets Lab", "Leadership Institute"],
-  },
-  {
-    name: "College of Arts & Sciences",
-    dean: "Dr. Emily Rodriguez",
-    deanImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop&crop=face",
-    description: "Exploring the humanities, social sciences, and natural world through interdisciplinary studies.",
-    programs: ["Psychology", "Biology", "English", "History", "Chemistry", "Political Science", "Mathematics", "Physics"],
-    type: "undergraduate",
-    established: 1890,
-    location: "Main Quad",
-    website: "artsci.university.edu",
-    contactEmail: "artsci@university.edu",
-    facultyCount: 210,
-    researchCenters: ["Humanities Center", "Social Science Research Lab", "Environmental Studies Institute"],
-  },
-  {
-    name: "School of Medicine",
-    dean: "Dr. James Wilson",
-    deanImage: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&h=100&fit=crop&crop=face",
-    description: "Training the next generation of healthcare professionals through innovative medical education.",
-    programs: ["Medicine", "Nursing", "Public Health", "Pharmacology", "Physical Therapy", "Medical Research"],
-    type: "graduate",
-    established: 1925,
-    location: "Medical Campus",
-    website: "medicine.university.edu",
-    contactEmail: "medicine@university.edu",
-    facultyCount: 320,
-    researchCenters: ["Cancer Research Center", "Neuroscience Institute", "Public Health Lab"],
-  },
-  {
-    name: "School of Law",
-    dean: "Prof. Amanda Foster",
-    deanImage: "https://images.unsplash.com/photo-1551836026-d5c2c0b4d4a1?w=100&h=100&fit=crop&crop=face",
-    description: "Preparing advocates for justice and legal excellence through rigorous academic programs.",
-    programs: ["Juris Doctor", "Legal Studies", "International Law", "Environmental Law", "Business Law"],
-    type: "graduate",
-    established: 1908,
-    location: "Law Quad",
-    website: "law.university.edu",
-    contactEmail: "law@university.edu",
-    facultyCount: 75,
-    researchCenters: ["Center for Justice Reform", "International Law Institute", "Legal Technology Lab"],
-  },
-  {
-    name: "School of Design & Arts",
-    dean: "Prof. Robert Chen",
-    deanImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
-    description: "Fostering creativity and innovation in visual, performing, and digital arts.",
-    programs: ["Fine Arts", "Graphic Design", "Architecture", "Music", "Film Studies", "Digital Media"],
-    type: "both",
-    established: 1985,
-    location: "Arts District",
-    website: "design.university.edu",
-    contactEmail: "design@university.edu",
-    facultyCount: 68,
-    researchCenters: ["Digital Arts Lab", "Urban Design Center", "Creative Entrepreneurship Hub"],
-  },
-];
-
-const facultyMembers: FacultyMember[] = [
-  {
-    name: "Dr. Alexandra Chen",
-    title: "Professor of Computer Science",
-    department: "School of Engineering",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=face",
-    researchInterests: ["Artificial Intelligence", "Machine Learning", "Computer Vision"],
-    email: "alexandra.chen@university.edu",
-  },
-  {
-    name: "Prof. Marcus Johnson",
-    title: "Dean of Research",
-    department: "College of Arts & Sciences",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
-    researchInterests: ["Cognitive Psychology", "Behavioral Economics", "Research Methodology"],
-    email: "marcus.johnson@university.edu",
-  },
-  {
-    name: "Dr. Sarah Williams",
-    title: "Associate Professor of Medicine",
-    department: "School of Medicine",
-    image: "https://images.unsplash.com/photo-1551836026-d5c2c0b4d4a1?w=100&h=100&fit=crop&crop=face",
-    researchInterests: ["Neurology", "Medical Imaging", "Clinical Trials"],
-    email: "sarah.williams@university.edu",
-  },
-];
-
-const pathfinderQuestions = [
-  {
-    question: "What interests you most?",
-    options: [
-      { id: "tech", label: "Technology & Innovation", icon: Lightbulb, description: "Computers, engineering, AI" },
-      { id: "health", label: "Healthcare & Science", icon: Heart, description: "Medicine, biology, research" },
-      { id: "business", label: "Business & Leadership", icon: Briefcase, description: "Management, finance, entrepreneurship" },
-      { id: "arts", label: "Arts & Humanities", icon: Sparkles, description: "Design, literature, social sciences" },
-    ],
-  },
-  {
-    question: "What's your preferred learning style?",
-    options: [
-      { id: "hands-on", label: "Hands-on Labs", description: "Practical, experimental learning" },
-      { id: "research", label: "Research Papers", description: "Theoretical, academic focus" },
-      { id: "group", label: "Group Projects", description: "Collaborative, team-based" },
-      { id: "online", label: "Online Modules", description: "Flexible, self-paced" },
-    ],
-  },
-  {
-    question: "Career goal timeframe?",
-    options: [
-      { id: "immediate", label: "Immediate employment", description: "Ready-to-work skills" },
-      { id: "advanced", label: "Advanced degree", description: "Graduate school preparation" },
-      { id: "research-career", label: "Research career", description: "Academic or industrial research" },
-      { id: "entrepreneur", label: "Entrepreneurship", description: "Start your own venture" },
-    ],
-  },
-];
-
-const pathfinderResults: Record<string, { title: string; degree: string; match: number; description: string }[]> = {
-  tech: [
-    { title: "Computer Science", degree: "B.S. / M.S.", match: 95, description: "AI, Software Engineering, Cybersecurity" },
-    { title: "Data Science", degree: "M.S.", match: 88, description: "Big Data Analytics, Machine Learning" },
-    { title: "Information Systems", degree: "B.S.", match: 82, description: "Business Technology, IT Management" },
-  ],
-  health: [
-    { title: "Biomedical Engineering", degree: "B.S.", match: 92, description: "Medical Devices, Healthcare Technology" },
-    { title: "Nursing", degree: "B.S.N.", match: 89, description: "Clinical Practice, Healthcare Leadership" },
-    { title: "Public Health", degree: "M.P.H.", match: 85, description: "Epidemiology, Health Policy" },
-  ],
-  business: [
-    { title: "Business Administration", degree: "MBA", match: 96, description: "Leadership, Strategic Management" },
-    { title: "Finance", degree: "B.S.", match: 88, description: "Investment Banking, Financial Analysis" },
-    { title: "Marketing", degree: "B.S.", match: 84, description: "Digital Marketing, Brand Strategy" },
-  ],
-  arts: [
-    { title: "English", degree: "B.A.", match: 90, description: "Literature, Writing, Critical Analysis" },
-    { title: "Psychology", degree: "B.A.", match: 87, description: "Human Behavior, Mental Health" },
-    { title: "History", degree: "B.A.", match: 83, description: "Historical Analysis, Cultural Studies" },
-  ],
-};
-
-const faqs = [
-  {
-    question: "How do I choose the right program?",
-    answer: "Use our Pathfinder tool above or speak with an academic advisor. Consider your career goals, learning preferences, and available time commitment. Our admissions team is also available for personalized guidance.",
-  },
-  {
-    question: "What are the admission requirements?",
-    answer: "Requirements vary by program. Generally, undergraduate programs require high school transcripts, standardized test scores, and essays. Graduate programs may require previous degree transcripts, GRE/GMAT scores, and letters of recommendation.",
-  },
-  {
-    question: "Is financial aid available?",
-    answer: "Yes! We offer various forms of financial aid including scholarships, grants, work-study programs, and loans. Over 70% of our students receive some form of financial assistance. Visit our Financial Aid office for more information.",
-  },
-  {
-    question: "Can I visit campus before applying?",
-    answer: "Absolutely! We offer daily campus tours, open houses, and virtual visit options. Schedule your visit through our admissions page to explore our facilities and meet current students and faculty.",
-  },
-  {
-    question: "Are there online program options?",
-    answer: "Yes, we offer fully online and hybrid programs across multiple disciplines. These programs maintain the same academic rigor and faculty quality as our on-campus offerings while providing flexibility for working professionals.",
-  },
-];
-
-const testimonials = [
-  {
-    quote: "The interdisciplinary approach to learning here prepared me for real-world challenges in ways I never expected. The faculty mentorship was invaluable.",
-    name: "Alexandra Chen",
-    program: "Computer Science, Class of 2023",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
-    currentRole: "Software Engineer at TechCorp",
-  },
-  {
-    quote: "The research opportunities and faculty mentorship transformed my career trajectory completely. The hands-on projects were particularly valuable.",
-    name: "Marcus Johnson",
-    program: "Biomedical Engineering, Class of 2022",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
-    currentRole: "Research Scientist at BioMed Labs",
-  },
-];
+// ==================== DATA & TYPES ====================
+import {
+  programCategories,
+  featuredPrograms,
+  schools,
+  statistics,
+  facultyMembers,
+  pathfinderQuestions,
+  pathfinderResults,
+  faqs,
+  testimonials,
+  type Program,
+  type School,
+} from "@/data/colleges";
 
 // ==================== CUSTOM HOOKS ====================
 const useDebounce = (value: string, delay: number) => {
@@ -516,10 +95,18 @@ export default function Colleges() {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [searchResults, setSearchResults] = useState<Program[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const visiblePrograms = 3;
-  const maxIndex = featuredPrograms.length - visiblePrograms;
+
+  // Handle coming soon category click
+  const handleCategoryClick = (category: typeof programCategories[0]) => {
+    if (category.comingSoon) {
+      setShowComingSoon(true);
+      setTimeout(() => setShowComingSoon(false), 4000);
+    }
+  };
 
   // Filter schools based on selected filter
   const filteredSchools = useMemo(() => {
@@ -530,9 +117,15 @@ export default function Colleges() {
   }, [schoolFilter]);
 
   // Filter featured programs for carousel
+  const allFeaturedPrograms = useMemo(() => {
+    return featuredPrograms.filter(program => program.featured);
+  }, []);
+
+  const maxIndex = Math.max(0, allFeaturedPrograms.length - visiblePrograms);
+
   const visibleFeaturedPrograms = useMemo(() => {
-    return featuredPrograms.slice(carouselIndex, carouselIndex + visiblePrograms);
-  }, [carouselIndex]);
+    return allFeaturedPrograms.slice(carouselIndex, carouselIndex + visiblePrograms);
+  }, [carouselIndex, allFeaturedPrograms]);
 
   // Handle search functionality
   useEffect(() => {
@@ -696,13 +289,18 @@ export default function Colleges() {
             {programCategories.map((category, index) => (
               <div
                 key={category.title}
-                className="group relative overflow-hidden rounded-2xl border-2 bg-card/50 backdrop-blur-sm p-6 hover:border-primary/50 hover:shadow-card-hover transition-all duration-300 cursor-pointer animate-fade-up"
+                onClick={() => handleCategoryClick(category)}
+                className={`group relative overflow-hidden rounded-2xl border-2 bg-card/50 backdrop-blur-sm p-6 transition-all duration-300 animate-fade-up ${
+                  category.comingSoon
+                    ? "border-muted cursor-not-allowed opacity-75"
+                    : "hover:border-primary/50 hover:shadow-card-hover cursor-pointer"
+                }`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className={`absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 ${!category.comingSoon && "group-hover:opacity-100"} transition-opacity duration-500`}></div>
                 
                 <div className="relative">
-                  <div className={`w-16 h-16 rounded-xl ${category.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-16 h-16 rounded-xl ${category.color} flex items-center justify-center mb-6 ${!category.comingSoon && "group-hover:scale-110"} transition-transform duration-300`}>
                     <category.icon className={`h-8 w-8 ${category.iconColor}`} />
                   </div>
                   
@@ -715,14 +313,16 @@ export default function Colleges() {
                   </p>
                   
                   <div className="flex items-center justify-between">
-                    <Badge variant="gold" className="group-hover:scale-105 transition-transform">
+                    <Badge variant={category.comingSoon ? "secondary" : "gold"} className={`${!category.comingSoon && "group-hover:scale-105"} transition-transform`}>
                       {category.badge}
                     </Badge>
                     
-                    <Button variant="tertiary" size="sm" className="opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0">
-                      Explore
-                      <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                    {!category.comingSoon && (
+                      <Button variant="tertiary" size="sm" className="opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0">
+                        Explore
+                        <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -731,7 +331,19 @@ export default function Colleges() {
         </div>
       </section>
 
-      {/* Featured Programs - Enhanced Carousel */}
+      {/* Coming Soon Alert */}
+      {showComingSoon && (
+        <div className="fixed top-6 right-6 z-50 max-w-sm animate-in fade-in slide-in-from-top">
+          <Alert className="bg-primary text-primary-foreground border-primary">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              Graduate programs are coming soon! We're excited to expand our offerings.
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
+
+      {/* Featured Programs*/}
       <section className="py-20 bg-card">
         <div className="container">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
@@ -748,16 +360,8 @@ export default function Colleges() {
               </p>
             </div>
             
+            {/* REMOVED: Compare Programs Button - Only navigation buttons remain */}
             <div className="flex items-center gap-4 mt-6 md:mt-0">
-              <Button
-                variant="outline"
-                size="lg"
-                className="group"
-              >
-                <Bookmark className="h-4 w-4 mr-2" />
-                Compare Programs
-              </Button>
-              
               <div className="flex gap-2">
                 <Button
                   variant="outline"
@@ -785,7 +389,7 @@ export default function Colleges() {
           <div className="relative">
             <div className="overflow-hidden rounded-2xl">
               <div className="flex gap-8 transition-transform duration-500 ease-out">
-                {featuredPrograms.map((program) => (
+                {visibleFeaturedPrograms.map((program) => (
                   <Card
                     key={program.id}
                     featured={program.featured}
@@ -800,7 +404,7 @@ export default function Colleges() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       
-                      {/* Quick Actions Overlay */}
+                      {/* Quick Actions Overlay - Keep bookmark and share for user convenience */}
                       <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <Button size="icon" variant="gold" className="h-8 w-8">
                           <Bookmark className="h-4 w-4" />
@@ -832,7 +436,7 @@ export default function Colleges() {
                         {program.description}
                       </p>
                       
-                      {/* Program Details */}
+                      {/* Program Details - MODIFIED: Only Duration and Starting Date for Liberian system */}
                       <div className="grid grid-cols-2 gap-3 mb-6">
                         <div className="flex items-center gap-2 text-sm">
                           <Clock className="h-4 w-4 text-muted-foreground" />
@@ -842,25 +446,14 @@ export default function Colleges() {
                           <Calendar className="h-4 w-4 text-muted-foreground" />
                           <span className="text-foreground font-medium">{program.applicationDeadline}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-sm">
-                          <Users className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-foreground font-medium">{program.enrollmentCount} enrolled</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm">
-                          <DollarSign className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-foreground font-medium">{program.tuition}</span>
-                        </div>
+                        {/* REMOVED: Enrollment count and tuition fields */}
                       </div>
                       
-                      <div className="flex gap-3">
-                        <Button variant="gold" className="flex-1 group">
-                          View Details
-                          <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                        </Button>
-                        <Button variant="outline" size="icon">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </div>
+                      {/* View Details Button - MODIFIED: Gold variant, removed eye icon */}
+                      <Button variant="purple" className="w-full group">
+                        View Details
+                        <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </Button>
                     </CardContent>
                   </Card>
                 ))}
@@ -970,23 +563,13 @@ export default function Colleges() {
                 onClick={() => handleSchoolSelect(school)}
               >
                 <CardHeader className="pb-4">
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-center gap-4">
                     <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                       <Building className="h-8 w-8 text-primary" />
                     </div>
                     <div className="flex-1">
+                      {/* REMOVED: Dean section - Only school name remains */}
                       <CardTitle className="text-xl mb-2">{school.name}</CardTitle>
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={school.deanImage}
-                          alt={school.dean}
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
-                        <div>
-                          <p className="text-sm font-medium text-foreground">{school.dean}</p>
-                          <p className="text-xs text-muted-foreground">Dean</p>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </CardHeader>
@@ -997,17 +580,30 @@ export default function Colleges() {
                   </p>
                   
                   <div className="space-y-4 mb-6">
+                    {/* CHANGED: Est. 1955 to Duration (3.5 years or 4 years) */}
                     <div className="flex items-center gap-2 text-sm">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-foreground">Est. {school.established}</span>
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-foreground font-medium">Duration: {school.duration || "4 years"}</span>
                     </div>
+                    
+                    {/* CHANGED: Faculty count to Credit Hours */}
                     <div className="flex items-center gap-2 text-sm">
-                      <User className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-foreground">{school.facultyCount} Faculty</span>
+                      <GraduationCap className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-foreground font-medium">{school.creditHours || "120-144"} Credit Hours</span>
                     </div>
+                    
+                    {/* CHANGED: Location to Liberian format */}
                     <div className="flex items-center gap-2 text-sm">
                       <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-foreground">{school.location}</span>
+                      <span className="text-foreground font-medium">
+                        {school.location === "Engineering Quad" ? "5th Street, Beachside, Mon-Lib" : 
+                         school.location === "Business District" ? "Dixville, Liberia" :
+                         school.location === "Main Quad" ? "5th Street, Beachside, Mon-Lib" :
+                         school.location === "Medical Campus" ? "Dixville, Liberia" :
+                         school.location === "Law Quad" ? "5th Street, Beachside, Mon-Lib" :
+                         school.location === "Arts District" ? "Dixville, Liberia" :
+                         school.location}
+                      </span>
                     </div>
                   </div>
                   
@@ -1025,12 +621,13 @@ export default function Colleges() {
                   </div>
                   
                   <div className="flex gap-3">
-                    <Button variant="outline" className="flex-1">
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Visit
+                    {/* CHANGED: "Visit" to "View Details" */}
+                    <Button variant="purple" className="flex-1 group">
+                      View Details
+                      <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
-                    <Button variant="gold" size="icon">
-                      <ArrowRight className="h-4 w-4" />
+                    <Button variant="outline" size="icon">
+                      <ExternalLink className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardContent>
@@ -1039,6 +636,108 @@ export default function Colleges() {
           </div>
         </div>
       </section>
+
+      {/* Selected School Details Modal - Also Updated to Match */}
+      {selectedSchool && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
+          <Card className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-2xl">{selectedSchool.name}</CardTitle>
+                <Button variant="ghost" size="icon" onClick={() => setSelectedSchool(null)}>
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold text-foreground mb-3">Key Information</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Duration</span>
+                      <span className="font-medium">{selectedSchool.duration || "4 years"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Credit Hours</span>
+                      <span className="font-medium">{selectedSchool.creditHours || "120-144"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Location</span>
+                      <span className="font-medium">
+                        {selectedSchool.location === "Engineering Quad" ? "5th Street, Beachside, Mon-Lib" : 
+                         selectedSchool.location === "Business District" ? "Dixville, Liberia" :
+                         selectedSchool.location === "Main Quad" ? "5th Street, Beachside, Mon-Lib" :
+                         selectedSchool.location === "Medical Campus" ? "Dixville, Liberia" :
+                         selectedSchool.location === "Law Quad" ? "5th Street, Beachside, Mon-Lib" :
+                         selectedSchool.location === "Arts District" ? "Dixville, Liberia" :
+                         selectedSchool.location}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Website</span>
+                      <a href={`https://${selectedSchool.website}`} className="text-primary hover:underline">
+                        {selectedSchool.website}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold text-foreground mb-3">Contact Information</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Email</span>
+                      <span className="font-medium">{selectedSchool.contactEmail}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Phone</span>
+                      <span className="font-medium">+231 77 123 4567</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Office Hours</span>
+                      <span className="font-medium">Mon-Fri, 8AM-5PM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-foreground mb-3">Research Centers</h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedSchool.researchCenters?.map((center) => (
+                    <Badge key={center} variant="outline" className="text-sm">
+                      <Microscope className="h-3 w-3 mr-1" />
+                      {center}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-foreground mb-3">Academic Programs</h4>
+                <div className="grid sm:grid-cols-2 gap-2">
+                  {selectedSchool.programs.map((program) => (
+                    <div key={program} className="flex items-center gap-2 p-3 rounded-lg border hover:bg-primary/5 transition-colors">
+                      <GraduationCap className="h-4 w-4 text-primary" />
+                      <span>{program}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="flex gap-3 pt-4">
+                <Button variant="purple" className="flex-1">
+                  View School Details
+                </Button>
+                <Button variant="outline">
+                  Contact Admissions
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Selected School Details Modal */}
       {selectedSchool && (
@@ -1123,7 +822,7 @@ export default function Colleges() {
               </div>
               
               <div className="flex gap-3 pt-4">
-                <Button variant="gold" className="flex-1">
+                <Button variant="purple" className="flex-1">
                   Visit School Website
                 </Button>
                 <Button variant="outline">
@@ -1245,7 +944,7 @@ export default function Colleges() {
                           </div>
                         </div>
                         <div className="flex gap-3 w-full sm:w-auto">
-                          <Button variant="gold" size="sm" className="flex-1 sm:flex-none">
+                          <Button variant="purple" size="sm" className="flex-1 sm:flex-none">
                             Learn More
                           </Button>
                           <Button variant="outline" size="icon">
@@ -1261,7 +960,7 @@ export default function Colleges() {
                       <Sparkles className="h-4 w-4 mr-2" />
                       Start Over
                     </Button>
-                    <Button variant="gold" className="flex-1">
+                    <Button variant="purple" className="flex-1">
                       <Download className="h-4 w-4 mr-2" />
                       Download Recommendations
                     </Button>
@@ -1324,7 +1023,7 @@ export default function Colleges() {
           </div>
           
           <div className="text-center mt-10">
-            <Button variant="gold" size="lg">
+            <Button variant="purple" size="lg">
               <User className="h-5 w-5 mr-2" />
               View All Faculty
             </Button>
@@ -1416,7 +1115,7 @@ export default function Colleges() {
                 <Phone className="h-4 w-4 mr-2" />
                 Call Admissions
               </Button>
-              <Button variant="gold">
+              <Button variant="purple">
                 <Mail className="h-4 w-4 mr-2" />
                 Email Questions
               </Button>
@@ -1436,7 +1135,7 @@ export default function Colleges() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button variant="gold" size="lg" className="group">
+            <Button variant="purple" size="lg" className="group">
               Apply Now
               <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -1452,7 +1151,7 @@ export default function Colleges() {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
             <div className="text-center">
-              <div className="text-2xl font-bold text-accent mb-1">95%</div>
+              <div className="text-2xl font-bold text-accent mb-1">97%</div>
               <div className="text-sm text-primary-foreground/80">Student Satisfaction</div>
             </div>
             <div className="text-center">

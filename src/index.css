@@ -7,9 +7,9 @@
 @layer base {
   :root {
     /* Primary - Institutional Identity */
-    --primary: 270 51% 36%;
-    --primary-dark: 270 49% 26%;
-    --primary-light: 270 45% 55%;
+    --primary: 264 71% 47%;
+    --primary-dark: 264 75% 35%;
+    --primary-light: 264 65% 65%;
     --primary-foreground: 0 0% 100%;
 
     /* Accent - Action & Achievement (Gold) */
@@ -50,7 +50,7 @@
     --radius: 0.875rem;
 
     /* Sidebar - matching university theme */
-    --sidebar-background: 270 49% 26%;
+    --sidebar-background: 264 75% 35%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 47 90% 58%;
     --sidebar-primary-foreground: 260 20% 14%;
@@ -61,9 +61,9 @@
   }
 
   .dark {
-    --primary: 270 51% 36%;
-    --primary-dark: 270 49% 26%;
-    --primary-light: 270 45% 55%;
+    --primary: 264 71% 47%;
+    --primary-dark: 264 75% 35%;
+    --primary-light: 264 65% 65%;
     --primary-foreground: 0 0% 100%;
 
     --accent: 47 90% 58%;
@@ -88,7 +88,7 @@
     --secondary: 260 20% 18%;
     --secondary-foreground: 260 10% 95%;
 
-    --sidebar-background: 260 20% 8%;
+    --sidebar-background: 264 75% 35%;
     --sidebar-foreground: 260 10% 95%;
     --sidebar-primary: 47 90% 58%;
     --sidebar-primary-foreground: 260 20% 14%;

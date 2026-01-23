@@ -15,6 +15,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const navItems = [
+  { label: "Home", href: "/" },
   { label: "Colleges", href: "/colleges" },
   // { label: "Research Centers", href: "/academics" },  
   // { label: "Academic Calendar", href: "/academics" }, 
@@ -121,6 +122,7 @@ export function Header() {
                   to={item.href}
                   className={cn(
                     "flex items-center gap-1 px-4 py-2 text-sm font-medium text-primary hover:text-accent transition-colors rounded-lg",
+                    item.label === "Home" && "text-base xl:text-lg",
                     activeSubmenu === item.label && "text-accent"
                   )}
                   activeClassName="text-accent bg-primary/10"
