@@ -673,7 +673,15 @@ export default function Colleges() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Location</span>
-                    <span className="font-medium text-right">5th Street, Sinkor, Monrovia, Liberia & Dixville, Liberia</span>
+                    <span className="font-medium text-right">
+                      {selectedSchool.location === "Engineering Quad" ? "5th Street, Beachside, Mon-Lib" : 
+                       selectedSchool.location === "Business District" ? "Dixville, Liberia" :
+                       selectedSchool.location === "Main Quad" ? "5th Street, Beachside, Mon-Lib" :
+                       selectedSchool.location === "Medical Campus" ? "Dixville, Liberia" :
+                       selectedSchool.location === "Law Quad" ? "5th Street, Beachside, Mon-Lib" :
+                       selectedSchool.location === "Arts District" ? "Dixville, Liberia" :
+                       selectedSchool.location}
+                    </span>
                   </div>
                 </div>
               </div>
