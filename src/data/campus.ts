@@ -4,7 +4,8 @@ export const campuses = [
     description:
       "Our main academic campus located in the heart of Monrovia, housing core lecture halls, laboratories, and administrative offices.",
     image:
-      "https://images.unsplash.com/photo-1590691565924-90d0a14451e8?q=80&w=1200&auto=format&fit=crop", // University campus exterior
+    "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1200&auto=format&fit=crop",
+      
   },
   {
     name: "Dixville Campus",
@@ -21,7 +22,8 @@ export const facilities = [
     description:
       "Hands-on digital learning space equipped for computing, networking, and applied technology training.",
     image:
-      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop", // Modern computer lab
+    //   "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop", // Modern computer lab
+    "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=1200&auto=format&fit=crop"
   },
   {
     title: "Science Laboratory",
