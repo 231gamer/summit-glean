@@ -3,9 +3,11 @@ import { HeroSection } from "@/components/HeroSection";
 import { ProgramsSection } from "@/components/ProgramsSection";
 import { WhyChooseUsSection } from "@/components/WhyChooseUsSection";
 import { AdmissionsSection } from "@/components/AdmissionsSection";
+import { CampusSection } from "@/components/CampusSection"; 
 import { NewsEventsSection } from "@/components/NewsEventsSection";
-// Campus life section hidden temporarily
-import { CTASection } from "@/components/CTASection";
+import {TestimonialsSection} from "@/components/Testimonials";
+import {CallToActionSection} from "@/components/CallToAction";
+// import { CTASection } from "@/components/CTASection"; 
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
@@ -17,8 +19,11 @@ const Index = () => {
         <ProgramsSection />
         <WhyChooseUsSection />
         <AdmissionsSection />
+        <CampusSection />
         <NewsEventsSection />
-        <CTASection />
+        <TestimonialsSection />
+        <CallToActionSection />
+        {/* <CTASection />  */}
       </main>
       <Footer />
     </div>
