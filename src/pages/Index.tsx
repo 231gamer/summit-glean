@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { ProgramsSection } from "@/components/ProgramsSection";
+import { WhyChooseUsSection } from "@/components/WhyChooseUsSection";
 import { NewsEventsSection } from "@/components/NewsEventsSection";
 // Campus life section hidden temporarily
 import { CTASection } from "@/components/CTASection";
@@ -13,8 +14,8 @@ const Index = () => {
       <main>
         <HeroSection />
         <ProgramsSection />
+        <WhyChooseUsSection />
         <NewsEventsSection />
-        {/* CampusLifeSection temporarily hidden */}
         <CTASection />
       </main>
       <Footer />

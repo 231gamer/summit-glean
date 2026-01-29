@@ -1,54 +1,8 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Beaker, Scale, Stethoscope, Cpu, Palette, Building2 } from "lucide-react";
-
-const programs = [
-    {
-    icon: Building2,
-    title: "School of Business",
-    description: "Prepare for leadership in today’s global economy through programs in Accounting, Finance, Management, Entrepreneurship, Project Management, and more.",
-    programs: ["Finance", "Marketing", "Economics"],
-    featured: true,
-  },
-  {
-    icon: Scale,
-    title: "School of Liberal Arts",
-    description: "Prepare for careers in law, government, and public service leadership.",
-    programs: ["Law", "Public Administration", "Political Science"],
-    featured: false,
-  },
-  
-  {
-    icon: Stethoscope,
-    title: "School of Public Health & Environmental Science",
-    description: "Address critical health and environmental challenges through programs in Public Health and Environmental Science.",
-    programs: ["Medicine", "Nursing", "Public Health", "Pharmacy"],
-    featured: false,
-  },
-    {
-    icon: Beaker,
-    title: "School of Science & Technology",
-    description: "Build in-demand technical skills in Computer Networking, Data Science, Management Information Systems, and Telecommunications.",
-    programs: ["Physics", "Chemistry", "Biology", "Mechanical Engineering"],
-    featured: true,
-  },
-  {
-    icon: Cpu,
-    title: "Christian Education",
-    description: "Master the technologies shaping our digital future.",
-    programs: ["Theology", "Data Science", "Cybersecurity", "Church Administration"],
-    featured: false,
-  },
-  {
-    icon: Palette,
-    title: "School of Education",
-    description: "Train as an educator and leader with programs in Early Childhood, Primary, Secondary Education, Guidance & Counseling, and Education Management.",
-    programs: ["Fine Arts", "Music", "Literature", "Philosophy"],
-    featured: false,
-  },
-
-];
+import { ArrowRight, ExternalLink, Building2 } from "lucide-react";
+import { schools } from "@/data/colleges/schools";
 
 export function ProgramsSection() {
   return (
@@ -57,51 +11,55 @@ export function ProgramsSection() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-            Academic Excellence
+            Academics
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-            Explore Our Programs
+            Our Colleges & Schools
           </h2>
           <p className="text-muted-foreground text-lg">
-            Choose from over 100 undergraduate and professional programs across six distinguished schools.
+            Explore our academic structure across undergraduate degrees and professional training programs.
           </p>
         </div>
 
-        {/* Programs Grid */}
+        {/* Schools Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {programs.map((program) => (
-            <Card
-              key={program.title}
-              featured={program.featured}
-              className="card-hover group"
-            >
-              <CardHeader featured={program.featured}>
-                <div className="flex items-start justify-between mb-2">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
-                    <program.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  {program.featured && (
-                    <Badge variant="gold">Featured</Badge>
-                  )}
+          {schools.map((school) => (
+            <Card key={school.name} className="group card-hover">
+              <CardHeader>
+                {school.category === "continuing" && (
+                  <Badge variant="gold" className="mb-3 w-fit">
+                    Professional Training
+                  </Badge>
+                )}
+
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                  <Building2 className="h-6 w-6 text-primary" />
                 </div>
+
                 <CardTitle className="group-hover:text-primary transition-colors">
-                  {program.title}
+                  {school.name}
                 </CardTitle>
-                <CardDescription>{program.description}</CardDescription>
+
+                <CardDescription>
+                  {school.description}
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {program.programs.map((p) => (
-                    <Badge key={p} variant="purple" className="text-xs">
-                      {p}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button variant="tertiary" className="group/btn p-0">
-                  Learn More
-                  <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+
+              <CardFooter className="flex gap-3">
+                {school.category === "continuing" ? (
+                  <Button variant="gold" className="flex-1 group">
+                    View Short Courses
+                    <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                ) : (
+                  <Button variant="purple" className="flex-1 group">
+                    View College
+                    <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                )}
+
+                <Button variant="outline" size="icon" aria-label="External link">
+                  <ExternalLink className="h-4 w-4" />
                 </Button>
               </CardFooter>
             </Card>
@@ -109,10 +67,10 @@ export function ProgramsSection() {
         </div>
 
         {/* View All CTA */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-14">
           <Button variant="outline" size="lg">
-            View All Programs
-            <ArrowRight className="h-5 w-5" />
+            Explore All Colleges
+            <ArrowRight className="h-5 w-5 ml-2" />
           </Button>
         </div>
       </div>
