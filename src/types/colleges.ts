@@ -60,6 +60,7 @@ export interface ProgramCategory {
 /**
  * Represents an academic school/college within the university
  * @property {string} name - Official school name
+ * @property {"academic" | "continuing"} category - Type of school
  * @property {string} description - School mission and overview
  * @property {string[]} programs - List of program names offered
  * @property {"both" | "undergraduate" | "graduate"} type - Degree levels offered
@@ -69,9 +70,11 @@ export interface ProgramCategory {
  * @property {string} [website] - School website URL
  * @property {string} [contactEmail] - Main contact email
  * @property {string[]} [researchCenters] - List of research centers/labs
+ * @property {number} [degreeCount] - Number of degree programs offered
  */
 export interface School {
   name: string;
+  category: "academic" | "continuing";
   description: string;
   programs: string[];
   type: "both" | "undergraduate" | "graduate";
@@ -81,6 +84,7 @@ export interface School {
   website?: string;
   contactEmail?: string;
   researchCenters?: string[];
+  degreeCount?: number;
 }
 
 /**

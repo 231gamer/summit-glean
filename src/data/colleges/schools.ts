@@ -37,6 +37,7 @@ export const schools: School[] = [
       "Entrepreneurship Center",
       "Economic Policy Unit",
     ],
+    degreeCount: 9 // ADD THIS
   },
   {
     name: "School of Agriculture",
@@ -58,6 +59,7 @@ export const schools: School[] = [
       "Sustainable Farming Unit",
       "Food Security Research Center",
     ],
+    degreeCount: 3 // ADD THIS
   },
   {
     name: "School of Science & Technology",
@@ -81,6 +83,7 @@ export const schools: School[] = [
       "ICT Innovation Lab",
       "Data & Systems Research Unit",
     ],
+    degreeCount: 5 // ADD THIS
   },
   {
     name: "School of Christian Education",
@@ -102,6 +105,7 @@ export const schools: School[] = [
       "Biblical Studies Center",
       "Faith & Leadership Institute",
     ],
+    degreeCount: 3 // ADD THIS
   },
   {
     name: "School of Public Health & Environmental Science",
@@ -122,6 +126,7 @@ export const schools: School[] = [
       "Community Health Research Unit",
       "Environmental Impact Lab",
     ],
+    degreeCount: 2 // ADD THIS
   },
   {
     name: "School of Liberal Arts",
@@ -143,6 +148,7 @@ export const schools: School[] = [
       "Governance & Policy Center",
       "Creative Arts Studio",
     ],
+    degreeCount: 3 // ADD THIS
   },
   {
     name: "School of Education",
@@ -166,6 +172,7 @@ export const schools: School[] = [
       "Teacher Development Center",
       "Educational Research Unit",
     ],
+    degreeCount: 5 // ADD THIS
   },
   {
     name: "School of Continuing Education",
@@ -205,5 +212,6 @@ export const schools: School[] = [
       "Professional Skills Lab",
       "Workforce Development Unit",
     ],
+    degreeCount: 22 // ADD THIS
   },
 ];
