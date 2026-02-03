@@ -1,6 +1,7 @@
 # Liberia Christian College
 
-Welcome to the official website of Liberia Christian College. This is the digital home for our vibrant academic community committed to faith-based education, personal growth, and community engagement.
+Welcome to the official website of Liberia Christian College. 
+This is the digital home for our vibrant academic community committed to faith-based education, personal growth, and community engagement.
 
 ## About Liberia Christian College
 

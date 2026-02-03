@@ -331,6 +331,321 @@ export default function Colleges() {
         </div>
       </section>
 
+      {/* Schools & Colleges - Enhanced with Filters */}
+      <section className="py-20 bg-background" id="schools">
+        <div className="container">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
+              Our <span className="text-primary">Schools & Colleges</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
+              Discover the diverse academic communities driving innovation and excellence
+            </p>
+
+            {/* Enhanced Filter Tabs */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+              <div className="inline-flex bg-card rounded-xl p-1.5 border border-border">
+                {(["all", "undergraduate", "graduate"] as const).map((filter) => (
+                  <button
+                    key={filter}
+                    onClick={() => setSchoolFilter(filter)}
+                    className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+                      schoolFilter === filter
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "text-foreground hover:bg-primary/5"
+                    }`}
+                  >
+                    {filter === "all" ? "All Schools" : filter.charAt(0).toUpperCase() + filter.slice(1)}
+                  </button>
+                ))}
+              </div>
+
+              <Button
+                variant="outline"
+                className="sm:hidden"
+                onClick={() => setShowMobileFilters(!showMobileFilters)}
+              >
+                <Filter className="h-4 w-4 mr-2" />
+                Filters
+                <ChevronDown className={`h-4 w-4 ml-2 transition-transform ${showMobileFilters ? 'rotate-180' : ''}`} />
+              </Button>
+            </div>
+          </div>
+
+          {/* Schools Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredSchools.map((school) => (
+              <Card
+                key={school.name}
+                className="group hover:shadow-card-hover transition-all duration-300 overflow-hidden cursor-pointer"
+                onClick={() => handleSchoolSelect(school)}
+              >
+                <CardHeader className="pb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <Building className="h-8 w-8 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      {/* REMOVED: Dean section - Only school name remains */}
+                      <CardTitle className="text-xl mb-2">{school.name}</CardTitle>
+                    </div>
+                  </div>
+                </CardHeader>
+
+                <CardContent>
+                  <p className="text-muted-foreground text-sm mb-6 line-clamp-3">
+                    {school.description}
+                  </p>
+
+                  <div className="space-y-4 mb-6">
+                    {/* CHANGED: Est. 1955 to Duration (3.5 years or 4 years) */}
+                    <div className="flex items-center gap-2 text-sm">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-foreground font-medium">Duration: {school.duration || "4 years"}</span>
+                    </div>
+
+                    {/* CHANGED: Faculty count to Credit Hours */}
+                    <div className="flex items-center gap-2 text-sm">
+                      <GraduationCap className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-foreground font-medium">{school.creditHours || "120-144"} Credit Hours</span>
+                    </div>
+
+                    {/* CHANGED: Location to Liberian format */}
+                    <div className="flex items-center gap-2 text-sm">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-foreground font-medium">
+                        {school.location === "Engineering Quad" ? "5th Street, Beachside, Mon-Lib" :
+                         school.location === "Business District" ? "Dixville, Liberia" :
+                         school.location === "Main Quad" ? "5th Street, Beachside, Mon-Lib" :
+                         school.location === "Medical Campus" ? "Dixville, Liberia" :
+                         school.location === "Law Quad" ? "5th Street, Beachside, Mon-Lib" :
+                         school.location === "Arts District" ? "Dixville, Liberia" :
+                         school.location}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {school.programs.slice(0, 4).map((program) => (
+                      <Badge key={program} variant="purple" className="text-xs">
+                        {program}
+                      </Badge>
+                    ))}
+                    {school.programs.length > 4 && (
+                      <Badge variant="outline" className="text-xs">
+                        +{school.programs.length - 4} more
+                      </Badge>
+                    )}
+                  </div>
+
+                  <div className="flex gap-3">
+                    {/* CHANGED: "Visit" to "View Details" */}
+                    <Button variant="purple" className="flex-1 group">
+                      View Details
+                      <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                    <Button variant="outline" size="icon">
+                      <ExternalLink className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Selected School Details Modal - Updated for Liberian Context */}
+      {selectedSchool && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
+          <Card className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-2xl">{selectedSchool.name}</CardTitle>
+                <Button variant="ghost" size="icon" onClick={() => setSelectedSchool(null)}>
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Accreditation & Program Information */}
+              <div>
+                <h4 className="font-semibold text-foreground mb-3">Accreditation & Program Details</h4>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Accredited by</span>
+                    <span className="font-medium text-right">National Commission on Higher Education (NCHE), Liberia</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Degree Awarded</span>
+                    <span className="font-medium text-right">
+                      {selectedSchool.name.includes("Engineering") ? "Bachelor of Engineering (BEng)" :
+                       selectedSchool.name.includes("Medicine") ? "Doctor of Medicine (MD)" :
+                       selectedSchool.name.includes("Law") ? "Juris Doctor (JD)" :
+                       "Bachelor of Science (BSc)"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Program Duration</span>
+                    <span className="font-medium">{selectedSchool.duration || "3.5 – 4 Years"}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Location</span>
+                    <span className="font-medium text-right">
+                      {selectedSchool.location === "Engineering Quad" ? "5th Street, Beachside, Mon-Lib" :
+                       selectedSchool.location === "Business District" ? "Dixville, Liberia" :
+                       selectedSchool.location === "Main Quad" ? "5th Street, Beachside, Mon-Lib" :
+                       selectedSchool.location === "Medical Campus" ? "Dixville, Liberia" :
+                       selectedSchool.location === "Law Quad" ? "5th Street, Beachside, Mon-Lib" :
+                       selectedSchool.location === "Arts District" ? "Dixville, Liberia" :
+                       selectedSchool.location}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Facilities & Practical Training */}
+              <div>
+                <h4 className="font-semibold text-foreground mb-3">Facilities & Practical Training</h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedSchool.name.includes("Engineering") ? (
+                    <>
+                      <Badge variant="outline" className="text-sm">
+                        <Microscope className="h-3 w-3 mr-1" />
+                        Advanced Engineering Labs
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <Building className="h-3 w-3 mr-1" />
+                        ICT & Innovation Lab
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <GraduationCap className="h-3 w-3 mr-1" />
+                        Industry Partnerships
+                      </Badge>
+                    </>
+                  ) : selectedSchool.name.includes("Business") ? (
+                    <>
+                      <Badge variant="outline" className="text-sm">
+                        <Briefcase className="h-3 w-3 mr-1" />
+                        Business Simulation Center
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <DollarSign className="h-3 w-3 mr-1" />
+                        Trading & Finance Lab
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <Users className="h-3 w-3 mr-1" />
+                        Entrepreneurship Hub
+                      </Badge>
+                    </>
+                  ) : selectedSchool.name.includes("Medicine") ? (
+                    <>
+                      <Badge variant="outline" className="text-sm">
+                        <Heart className="h-3 w-3 mr-1" />
+                        Clinical Simulation Center
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <Microscope className="h-3 w-3 mr-1" />
+                        Medical Research Labs
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <Building className="h-3 w-3 mr-1" />
+                        Teaching Hospital Facilities
+                      </Badge>
+                    </>
+                  ) : selectedSchool.name.includes("Law") ? (
+                    <>
+                      <Badge variant="outline" className="text-sm">
+                        <BookOpen className="h-3 w-3 mr-1" />
+                        Moot Court Room
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <Building className="h-3 w-3 mr-1" />
+                        Legal Clinic
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <GraduationCap className="h-3 w-3 mr-1" />
+                        Law Library
+                      </Badge>
+                    </>
+                  ) : selectedSchool.name.includes("Design") ? (
+                    <>
+                      <Badge variant="outline" className="text-sm">
+                        <Sparkles className="h-3 w-3 mr-1" />
+                        Design Studios
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <Building className="h-3 w-3 mr-1" />
+                        Digital Media Labs
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <GraduationCap className="h-3 w-3 mr-1" />
+                        Exhibition Spaces
+                      </Badge>
+                    </>
+                  ) : (
+                    <>
+                      <Badge variant="outline" className="text-sm">
+                        <Building className="h-3 w-3 mr-1" />
+                        ICT & Innovation Lab
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <Microscope className="h-3 w-3 mr-1" />
+                        Research Laboratories
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        <GraduationCap className="h-3 w-3 mr-1" />
+                        Practical Training Facilities
+                      </Badge>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Academic Programs */}
+              <div>
+                <h4 className="font-semibold text-foreground mb-3">Academic Programs</h4>
+                <div className="grid sm:grid-cols-2 gap-2">
+                  {selectedSchool.programs.map((program) => (
+                    <div key={program} className="flex items-center gap-2 p-3 rounded-lg border hover:bg-primary/5 transition-colors">
+                      <GraduationCap className="h-4 w-4 text-primary" />
+                      <span>{program}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-4">
+                {/* CHANGED: "Visit School Website" to "Apply Now" */}
+                <Button variant="purple" className="flex-1 group">
+                  Apply Now
+                  <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+
+                {/* CHANGED: "Contact Admissions" to WhatsApp Button */}
+                <Button
+                  variant="outline"
+                  className="bg-green-50 border-green-200 text-green-700 hover:bg-green-100 hover:border-green-300 hover:text-green-800"
+                  onClick={() => {
+                    // WhatsApp link for Liberia
+                    const phoneNumber = "+231771234567";
+                    const message = `Hello! I'm interested in learning more about ${selectedSchool.name} programs.`;
+                    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+                  }}
+                >
+                  {/* WhatsApp icon */}
+                  <svg className="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
+                  </svg>
+                  WhatsApp Admissions
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Coming Soon Alert */}
       {showComingSoon && (
         <div className="fixed top-6 right-6 z-50 max-w-sm animate-in fade-in slide-in-from-top">
@@ -512,321 +827,6 @@ export default function Colleges() {
           </div>
         </div>
       </section>
-
-      {/* Schools & Colleges - Enhanced with Filters */}
-      <section className="py-20 bg-background" id="schools">
-        <div className="container">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-              Our <span className="text-primary">Schools & Colleges</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-              Discover the diverse academic communities driving innovation and excellence
-            </p>
-
-            {/* Enhanced Filter Tabs */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-              <div className="inline-flex bg-card rounded-xl p-1.5 border border-border">
-                {(["all", "undergraduate", "graduate"] as const).map((filter) => (
-                  <button
-                    key={filter}
-                    onClick={() => setSchoolFilter(filter)}
-                    className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-                      schoolFilter === filter
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-foreground hover:bg-primary/5"
-                    }`}
-                  >
-                    {filter === "all" ? "All Schools" : filter.charAt(0).toUpperCase() + filter.slice(1)}
-                  </button>
-                ))}
-              </div>
-              
-              <Button
-                variant="outline"
-                className="sm:hidden"
-                onClick={() => setShowMobileFilters(!showMobileFilters)}
-              >
-                <Filter className="h-4 w-4 mr-2" />
-                Filters
-                <ChevronDown className={`h-4 w-4 ml-2 transition-transform ${showMobileFilters ? 'rotate-180' : ''}`} />
-              </Button>
-            </div>
-          </div>
-
-          {/* Schools Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredSchools.map((school) => (
-              <Card 
-                key={school.name} 
-                className="group hover:shadow-card-hover transition-all duration-300 overflow-hidden cursor-pointer"
-                onClick={() => handleSchoolSelect(school)}
-              >
-                <CardHeader className="pb-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                      <Building className="h-8 w-8 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      {/* REMOVED: Dean section - Only school name remains */}
-                      <CardTitle className="text-xl mb-2">{school.name}</CardTitle>
-                    </div>
-                  </div>
-                </CardHeader>
-                
-                <CardContent>
-                  <p className="text-muted-foreground text-sm mb-6 line-clamp-3">
-                    {school.description}
-                  </p>
-                  
-                  <div className="space-y-4 mb-6">
-                    {/* CHANGED: Est. 1955 to Duration (3.5 years or 4 years) */}
-                    <div className="flex items-center gap-2 text-sm">
-                      <Clock className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-foreground font-medium">Duration: {school.duration || "4 years"}</span>
-                    </div>
-                    
-                    {/* CHANGED: Faculty count to Credit Hours */}
-                    <div className="flex items-center gap-2 text-sm">
-                      <GraduationCap className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-foreground font-medium">{school.creditHours || "120-144"} Credit Hours</span>
-                    </div>
-                    
-                    {/* CHANGED: Location to Liberian format */}
-                    <div className="flex items-center gap-2 text-sm">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-foreground font-medium">
-                        {school.location === "Engineering Quad" ? "5th Street, Beachside, Mon-Lib" : 
-                         school.location === "Business District" ? "Dixville, Liberia" :
-                         school.location === "Main Quad" ? "5th Street, Beachside, Mon-Lib" :
-                         school.location === "Medical Campus" ? "Dixville, Liberia" :
-                         school.location === "Law Quad" ? "5th Street, Beachside, Mon-Lib" :
-                         school.location === "Arts District" ? "Dixville, Liberia" :
-                         school.location}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {school.programs.slice(0, 4).map((program) => (
-                      <Badge key={program} variant="purple" className="text-xs">
-                        {program}
-                      </Badge>
-                    ))}
-                    {school.programs.length > 4 && (
-                      <Badge variant="outline" className="text-xs">
-                        +{school.programs.length - 4} more
-                      </Badge>
-                    )}
-                  </div>
-                  
-                  <div className="flex gap-3">
-                    {/* CHANGED: "Visit" to "View Details" */}
-                    <Button variant="purple" className="flex-1 group">
-                      View Details
-                      <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <ExternalLink className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Selected School Details Modal - Updated for Liberian Context */}
-      {selectedSchool && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
-          <Card className="max-w-4xl max-h-[90vh] overflow-y-auto">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-2xl">{selectedSchool.name}</CardTitle>
-                <Button variant="ghost" size="icon" onClick={() => setSelectedSchool(null)}>
-                  <X className="h-5 w-5" />
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Accreditation & Program Information */}
-              <div>
-                <h4 className="font-semibold text-foreground mb-3">Accreditation & Program Details</h4>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Accredited by</span>
-                    <span className="font-medium text-right">National Commission on Higher Education (NCHE), Liberia</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Degree Awarded</span>
-                    <span className="font-medium text-right">
-                      {selectedSchool.name.includes("Engineering") ? "Bachelor of Engineering (BEng)" : 
-                       selectedSchool.name.includes("Medicine") ? "Doctor of Medicine (MD)" :
-                       selectedSchool.name.includes("Law") ? "Juris Doctor (JD)" :
-                       "Bachelor of Science (BSc)"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Program Duration</span>
-                    <span className="font-medium">{selectedSchool.duration || "3.5 – 4 Years"}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Location</span>
-                    <span className="font-medium text-right">
-                      {selectedSchool.location === "Engineering Quad" ? "5th Street, Beachside, Mon-Lib" : 
-                       selectedSchool.location === "Business District" ? "Dixville, Liberia" :
-                       selectedSchool.location === "Main Quad" ? "5th Street, Beachside, Mon-Lib" :
-                       selectedSchool.location === "Medical Campus" ? "Dixville, Liberia" :
-                       selectedSchool.location === "Law Quad" ? "5th Street, Beachside, Mon-Lib" :
-                       selectedSchool.location === "Arts District" ? "Dixville, Liberia" :
-                       selectedSchool.location}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Facilities & Practical Training */}
-              <div>
-                <h4 className="font-semibold text-foreground mb-3">Facilities & Practical Training</h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedSchool.name.includes("Engineering") ? (
-                    <>
-                      <Badge variant="outline" className="text-sm">
-                        <Microscope className="h-3 w-3 mr-1" />
-                        Advanced Engineering Labs
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <Building className="h-3 w-3 mr-1" />
-                        ICT & Innovation Lab
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <GraduationCap className="h-3 w-3 mr-1" />
-                        Industry Partnerships
-                      </Badge>
-                    </>
-                  ) : selectedSchool.name.includes("Business") ? (
-                    <>
-                      <Badge variant="outline" className="text-sm">
-                        <Briefcase className="h-3 w-3 mr-1" />
-                        Business Simulation Center
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <DollarSign className="h-3 w-3 mr-1" />
-                        Trading & Finance Lab
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <Users className="h-3 w-3 mr-1" />
-                        Entrepreneurship Hub
-                      </Badge>
-                    </>
-                  ) : selectedSchool.name.includes("Medicine") ? (
-                    <>
-                      <Badge variant="outline" className="text-sm">
-                        <Heart className="h-3 w-3 mr-1" />
-                        Clinical Simulation Center
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <Microscope className="h-3 w-3 mr-1" />
-                        Medical Research Labs
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <Building className="h-3 w-3 mr-1" />
-                        Teaching Hospital Facilities
-                      </Badge>
-                    </>
-                  ) : selectedSchool.name.includes("Law") ? (
-                    <>
-                      <Badge variant="outline" className="text-sm">
-                        <BookOpen className="h-3 w-3 mr-1" />
-                        Moot Court Room
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <Building className="h-3 w-3 mr-1" />
-                        Legal Clinic
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <GraduationCap className="h-3 w-3 mr-1" />
-                        Law Library
-                      </Badge>
-                    </>
-                  ) : selectedSchool.name.includes("Design") ? (
-                    <>
-                      <Badge variant="outline" className="text-sm">
-                        <Sparkles className="h-3 w-3 mr-1" />
-                        Design Studios
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <Building className="h-3 w-3 mr-1" />
-                        Digital Media Labs
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <GraduationCap className="h-3 w-3 mr-1" />
-                        Exhibition Spaces
-                      </Badge>
-                    </>
-                  ) : (
-                    <>
-                      <Badge variant="outline" className="text-sm">
-                        <Building className="h-3 w-3 mr-1" />
-                        ICT & Innovation Lab
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <Microscope className="h-3 w-3 mr-1" />
-                        Research Laboratories
-                      </Badge>
-                      <Badge variant="outline" className="text-sm">
-                        <GraduationCap className="h-3 w-3 mr-1" />
-                        Practical Training Facilities
-                      </Badge>
-                    </>
-                  )}
-                </div>
-              </div>
-              
-              {/* Academic Programs */}
-              <div>
-                <h4 className="font-semibold text-foreground mb-3">Academic Programs</h4>
-                <div className="grid sm:grid-cols-2 gap-2">
-                  {selectedSchool.programs.map((program) => (
-                    <div key={program} className="flex items-center gap-2 p-3 rounded-lg border hover:bg-primary/5 transition-colors">
-                      <GraduationCap className="h-4 w-4 text-primary" />
-                      <span>{program}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Action Buttons */}
-              <div className="flex gap-3 pt-4">
-                {/* CHANGED: "Visit School Website" to "Apply Now" */}
-                <Button variant="purple" className="flex-1 group">
-                  Apply Now
-                  <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-                
-                {/* CHANGED: "Contact Admissions" to WhatsApp Button */}
-                <Button 
-                  variant="outline" 
-                  className="bg-green-50 border-green-200 text-green-700 hover:bg-green-100 hover:border-green-300 hover:text-green-800"
-                  onClick={() => {
-                    // WhatsApp link for Liberia
-                    const phoneNumber = "+231771234567";
-                    const message = `Hello! I'm interested in learning more about ${selectedSchool.name} programs.`;
-                    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-                  }}
-                >
-                  {/* WhatsApp icon */}
-                  <svg className="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
-                  </svg>
-                  WhatsApp Admissions
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
 
       {/* Pathfinder Tool - Enhanced */}
       <section className="py-20 bg-gradient-to-br from-primary/95 to-primary-dark">

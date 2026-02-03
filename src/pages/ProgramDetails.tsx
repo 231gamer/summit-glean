@@ -29,7 +29,7 @@ import {
   Building,
 } from "lucide-react";
 
-// Mock program data - would come from API
+// Mock program data
 const programData = {
   slug: "computer-science",
   title: "Computer Science",
