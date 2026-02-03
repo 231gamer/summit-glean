@@ -39,7 +39,7 @@ export function HeroSection() {
       <div className="container relative z-10 px-4 sm:px-6">
         <div className="max-w-3xl">
           {/* Urgency Badge - Simplified */}
-          <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-amber-600/20 backdrop-blur-sm border border-amber-300/30">
+          <div className="inline-flex items-center gap-2 mb-6 px-3 mt-6 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-amber-600/20 backdrop-blur-sm border border-amber-300/30">
             <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
             <span className="font-medium text-amber-100 text-sm">Semester II Admissions Open</span>
           </div>
