@@ -3,9 +3,7 @@ export const campuses = [
     name: "5th Street Campus",
     description:
       "Our main academic campus located in the heart of Monrovia, housing core lecture halls, laboratories, and administrative offices.",
-    image:
-    "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1200&auto=format&fit=crop",
-      
+    image: "/hero-section.png",
   },
   {
     name: "Dixville Campus",
@@ -36,7 +34,6 @@ export const facilities = [
     title: "Library & Study Spaces",
     description:
       "Quiet, resource-rich environments designed to support research, reading, and independent study.",
-    image:
-      "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1200&auto=format&fit=crop", // Modern university library
+    image: "/library.png",
   },
 ];

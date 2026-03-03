@@ -23,4 +23,4 @@ export type {
   FAQ,
   Testimonial,
   PathfinderResultsMap,
-} from "@/types/colleges";
+} from "@/types/colleges"; 

@@ -124,9 +124,9 @@ export default function Apply() {
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })} />
                   </div>
                   <div className="grid md:grid-cols-2 gap-4">
-                    <FormField label="Email" type="email" required value={formData.email}
+                    <FormField label="Email" type="email" value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                    <FormField label="Phone" type="tel" value={formData.phone}
+                    <FormField label="Phone" type="tel" required value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
                   </div>
                   <div className="grid md:grid-cols-2 gap-4">
