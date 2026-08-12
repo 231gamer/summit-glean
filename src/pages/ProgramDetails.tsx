@@ -224,8 +224,10 @@ export default function ProgramDetails() {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <Button variant="gold" size="lg">
-                Apply Now
+              <Button variant="gold" size="lg" asChild>
+                <Link to={`/apply?program=${encodeURIComponent(slug ?? programData.slug)}`}>
+                  Apply for This Program
+                </Link>
               </Button>
               <Button variant="hero-secondary" size="lg" onClick={handleAddToCompare}>
                 <Plus className="h-4 w-4 mr-2" />

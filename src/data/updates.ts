@@ -1,4 +1,20 @@
-export const announcements = [
+export interface NewsItem {
+  title: string;
+  date: string;
+  category: string;
+  image: string;
+  excerpt?: string;
+}
+
+export interface UpcomingEvent {
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  type: string;
+}
+
+export const announcements: NewsItem[] = [
   {
     title: "Admissions Open for Second Semester",
     date: "January 10, 2025",
@@ -43,7 +59,7 @@ export const announcements = [
   },
 ];
 
-export const upcomingEvents = [
+export const upcomingEvents: UpcomingEvent[] = [
   {
     title: "Prospective Students Open Day",
     date: "February 5, 2025",

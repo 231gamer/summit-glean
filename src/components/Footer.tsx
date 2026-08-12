@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { NavLink } from "@/components/NavLink";
 import logoImage from "@/assets/lcc-transparent-logo.png";
 import {
   Facebook,
@@ -15,32 +16,26 @@ import {
 
 const footerLinks = {
   academics: [
-    { label: "Undergraduate Programs", href: "#" },
-    // { label: "Graduate Programs", href: "#" }, 
-    { label: "Online Learning", href: "#" },
-    { label: "Academic Calendar", href: "#" },
-    { label: "Libraries", href: "#" },
+    { label: "Colleges & Schools", href: "/colleges#schools" },
+    { label: "Programs", href: "/colleges#programs" },
   ],
   admissions: [
-    { label: "Apply Now", href: "#" },
-    { label: "Tuition & Fees", href: "#" },
-    { label: "Financial Aid", href: "#" },
-    { label: "Visit Campus", href: "#" },
-    { label: "Contact Admissions", href: "#" },
+    { label: "Admissions Overview", href: "/admissions" },
+    { label: "Admission Requirements", href: "/admissions/requirements" },
+    { label: "Tuition & Fees", href: "/admissions/tuition" },
+    { label: "Scholarships & Financial Aid", href: "/admissions/scholarships" },
+    { label: "How to Apply", href: "/admissions/how-to-apply" },
   ],
   about: [
-    { label: "History & Mission", href: "#" },
-    { label: "Leadership", href: "#" },
-    { label: "News & Events", href: "#" },
-    { label: "Careers", href: "#" },
-    { label: "Contact Us", href: "#" },
+    { label: "About LCC", href: "/about" },
+    { label: "Leadership", href: "/about/leadership" },
+    { label: "Faculty & Staff", href: "/about/faculty-staff" },
   ],
-  resources: [
-    { label: "Student Portal", href: "#" },
-    { label: "Faculty & Staff", href: "#" },
-    { label: "Alumni", href: "#" },
-    { label: "Giving", href: "#" },
-    { label: "Athletics", href: "#" },
+  updates: [
+    { label: "News", href: "/updates/news" },
+    { label: "Events", href: "/updates/events" },
+    { label: "Contact Us", href: "/contact" },
+    { label: "Apply Now", href: "/apply" },
   ],
 };
 
@@ -109,12 +104,12 @@ export function Footer() {
             <ul className="space-y-2.5">
               {footerLinks.academics.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <NavLink
+                    to={link.href}
                     className="text-sm text-primary/70 hover:text-accent transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -125,12 +120,12 @@ export function Footer() {
             <ul className="space-y-2.5">
               {footerLinks.admissions.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <NavLink
+                    to={link.href}
                     className="text-sm text-primary/70 hover:text-accent transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -141,28 +136,28 @@ export function Footer() {
             <ul className="space-y-2.5">
               {footerLinks.about.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <NavLink
+                    to={link.href}
                     className="text-sm text-primary/70 hover:text-accent transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="font-heading font-bold mb-4 text-primary">Resources</h4>
+            <h4 className="font-heading font-bold mb-4 text-primary">Updates</h4>
             <ul className="space-y-2.5">
-              {footerLinks.resources.map((link) => (
+              {footerLinks.updates.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <NavLink
+                    to={link.href}
                     className="text-sm text-primary/70 hover:text-accent transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -171,29 +166,29 @@ export function Footer() {
             <div className="mt-6 pt-6 border-t border-primary/20">
               <div className="space-y-2 text-sm">
                 <a
-                  href="tel:+1234567890"
+                  href="tel:+231777947739"
                   className="flex items-center gap-2 text-primary/70 hover:text-accent transition-colors"
                 >
                   <Phone className="h-4 w-4" />
-                  (+231) 777-352002
+                  (+231) 777-947739
                 </a>
                 <a
-                  href="tel:+1234567890"
+                  href="tel:+231778747451"
                   className="flex items-center gap-2 text-primary/70 hover:text-accent transition-colors"
                 >
                   <Phone className="h-4 w-4" />
-                  (+231) 880-538928
+                  (+231) 778-747451
                 </a>
                 <a
-                  href="mailto:info@university.edu"
+                  href="mailto:lccedu1997@gmail.com"
                   className="flex items-center gap-2 text-primary/70 hover:text-accent transition-colors"
                 >
                   <Mail className="h-4 w-4" />
-                  info@lcc.edu.lr
+                  lccedu1997@gmail.com
                 </a>
                 <div className="flex items-start gap-2 text-primary/70">
                   <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                  <span>5th Street, Beachside,<br />Monrovia, Liberia</span>
+                  <span>5th Street & Dixville,<br />Monrovia, Liberia</span>
                 </div>
               </div>
             </div>

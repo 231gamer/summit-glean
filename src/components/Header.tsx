@@ -1,7 +1,18 @@
 import { useState, useEffect } from "react";
-import { Menu, X, ChevronDown, Search, Phone, Mail, MapPin } from "lucide-react";
+import { Menu, Search, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/NavLink";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import logoImage from "@/assets/lcc-transparent-logo.png";
 import {
   AlertDialog,
@@ -14,39 +25,57 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 
-const navItems = [
+interface NavChild {
+  label: string;
+  href: string;
+}
+
+interface NavGroup {
+  label: string;
+  href?: string;
+  children?: NavChild[];
+}
+
+const navGroups: NavGroup[] = [
   { label: "Home", href: "/" },
-  { label: "Colleges", href: "/colleges" },
-  // { label: "Research Centers", href: "/academics" },  
-  // { label: "Academic Calendar", href: "/academics" }, 
+  {
+    label: "Academics",
+    children: [
+      { label: "Colleges & Schools", href: "/colleges#schools" },
+      { label: "Programs", href: "/colleges#programs" },
+    ],
+  },
   {
     label: "Admissions",
-    href: "/apply",
-    submenu: [
-      { label: "Apply Now", href: "/apply" },
-      { label: "Tuition & Fees", href: "/apply" },
-      { label: "Financial Aid", href: "/apply" },
-      { label: "Visit Campus", href: "/contact" },
+    children: [
+      { label: "Admissions Overview", href: "/admissions" },
+      { label: "Admission Requirements", href: "/admissions/requirements" },
+      { label: "Tuition & Fees", href: "/admissions/tuition" },
+      { label: "Scholarships & Financial Aid", href: "/admissions/scholarships" },
+      { label: "How to Apply", href: "/admissions/how-to-apply" },
     ],
   },
   {
-    label: "Campus Life",
-    href: "/about",
-    submenu: [
-      { label: "Student Organizations", href: "/about" },
-      { label: "Athletics", href: "/about" },
-      { label: "Events", href: "/about" },
+    label: "About",
+    children: [
+      { label: "About LCC", href: "/about" },
+      { label: "Leadership", href: "/about/leadership" },
+      { label: "Faculty & Staff", href: "/about/faculty-staff" },
     ],
   },
-  { label: "Research", href: "/academics" },
-  { label: "About", href: "/about" },
+  {
+    label: "Updates",
+    children: [
+      { label: "News", href: "/updates/news" },
+      { label: "Events", href: "/updates/events" },
+    ],
+  },
   { label: "Contact", href: "/contact" },
 ];
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [isPortalOpen, setIsPortalOpen] = useState(false);
 
   useEffect(() => {
@@ -57,28 +86,28 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       {/* Top bar */}
       <div className="bg-primary text-white py-2 hidden md:block border-b">
         <div className="container flex items-center justify-between text-sm">
           <div className="flex items-center gap-6">
-            <a href="tel:+1234567890" className="flex items-center gap-1.5 hover:text-accent transition-colors text-white">
+            <a href="tel:+231777947739" className="flex items-center gap-1.5 hover:text-accent transition-colors text-white">
               <Phone className="h-3.5 w-3.5" />
-              <span>(+231) 777-352002 / (+231) 880-538928</span>
+              <span>(+231) 777-947739 / (+231) 778-747451</span>
             </a>
-            <a href="mailto:info@university.edu" className="flex items-center gap-1.5 hover:text-accent transition-colors text-white">
+            <a href="mailto:lccedu1997@gmail.com" className="flex items-center gap-1.5 hover:text-accent transition-colors text-white">
               <Mail className="h-3.5 w-3.5" />
-              <span>info@lcc.edu.lr</span>
+              <span>lccedu1997@gmail.com</span>
             </a>
             <span className="flex items-center gap-1.5 text-white">
               <MapPin className="h-3.5 w-3.5" />
-              <span>5th Street, Beachside, Monrovia, Liberia</span>
+              <span>5th Street & Dixville, Monrovia, Liberia</span>
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <a href="#alumni" className="hover:text-accent transition-colors text-white">Donate</a>
-            <a href="#give" className="hover:text-accent transition-colors text-white">Alumni</a>
             <button
               type="button"
               onClick={() => setIsPortalOpen(true)}
@@ -110,110 +139,136 @@ export function Header() {
           </NavLink>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => (
-              <div
-                key={item.label}
-                className="relative"
-                onMouseEnter={() => setActiveSubmenu(item.label)}
-                onMouseLeave={() => setActiveSubmenu(null)}
-              >
-                <NavLink
-                  to={item.href}
-                  className={cn(
-                    "flex items-center gap-1 px-4 py-2 text-sm font-medium text-primary hover:text-accent transition-colors rounded-lg",
-                    item.label === "Home" && "text-base xl:text-lg",
-                    activeSubmenu === item.label && "text-accent"
-                  )}
-                  activeClassName="text-accent bg-primary/10"
-                >
-                  {item.label}
-                  {item.submenu && <ChevronDown className="h-4 w-4" />}
-                </NavLink>
-                
-                {/* Submenu */}
-                {item.submenu && activeSubmenu === item.label && (
-                  <div className="absolute top-full left-0 pt-2 animate-fade-in">
-                    <div className="bg-card rounded-xl shadow-elegant border border-border py-2 min-w-[220px]">
-                      {item.submenu.map((subitem) => (
-                        <NavLink
-                          key={subitem.label}
-                          to={subitem.href}
-                          className="block px-4 py-2.5 text-sm text-foreground hover:bg-primary/5 hover:text-primary transition-colors"
-                          activeClassName="text-primary bg-primary/5 font-semibold"
-                        >
-                          {subitem.label}
-                        </NavLink>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          <NavigationMenu className="hidden lg:flex" delayDuration={100}>
+            <NavigationMenuList>
+              {navGroups.map((group) =>
+                group.children ? (
+                  <NavigationMenuItem key={group.label}>
+                    <NavigationMenuTrigger className="bg-transparent text-primary hover:bg-primary/5 hover:text-accent data-[state=open]:bg-primary/5 data-[state=open]:text-accent font-medium text-sm">
+                      {group.label}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[260px] gap-1 p-2 bg-card">
+                        {group.children.map((child) => (
+                          <li key={child.label}>
+                            <NavigationMenuLink asChild>
+                              <NavLink
+                                to={child.href}
+                                className="block rounded-lg px-3 py-2.5 text-sm text-foreground hover:bg-primary/5 hover:text-primary transition-colors"
+                                activeClassName="text-primary bg-primary/5 font-semibold"
+                              >
+                                {child.label}
+                              </NavLink>
+                            </NavigationMenuLink>
+                          </li>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                ) : (
+                  <NavigationMenuItem key={group.label}>
+                    <NavigationMenuLink asChild>
+                      <NavLink
+                        to={group.href!}
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          "bg-transparent text-primary hover:bg-primary/5 hover:text-accent font-medium text-sm"
+                        )}
+                        activeClassName="text-accent bg-primary/5"
+                      >
+                        {group.label}
+                      </NavLink>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                )
+              )}
+            </NavigationMenuList>
+          </NavigationMenu>
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-3">
             <Button variant="ghost" size="icon" className="text-primary hover:bg-primary/10">
               <Search className="h-5 w-5" />
             </Button>
-            <Button variant="gold" size="default">
-              Apply Now
+            <Button variant="gold" size="default" asChild>
+              <NavLink to="/apply">Apply Now</NavLink>
             </Button>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            className="lg:hidden p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
+          {/* Mobile Menu Trigger */}
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <button
+                className="lg:hidden p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors"
+                aria-label="Open menu"
+              >
+                <Menu className="h-6 w-6" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-full sm:max-w-sm overflow-y-auto p-0">
+              <SheetHeader className="p-6 pb-2 text-left">
+                <SheetTitle className="flex items-center gap-3">
+                  <img src={logoImage} alt="LCC Logo" className="h-9 w-9 object-contain" />
+                  <span className="font-heading text-base text-primary">Liberia Christian College</span>
+                </SheetTitle>
+              </SheetHeader>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-card border-t border-border shadow-elegant animate-fade-in">
-            <div className="container py-4">
-              {navItems.map((item) => (
-                <div key={item.label} className="border-b border-border last:border-b-0">
-                  <NavLink
-                    to={item.href}
-                    className="block py-3 text-foreground font-medium hover:text-primary transition-colors"
-                    activeClassName="text-primary"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </NavLink>
-                  {item.submenu && (
-                    <div className="pb-3 pl-4 space-y-2">
-                      {item.submenu.map((subitem) => (
+              <nav aria-label="Mobile" className="px-3 pb-6">
+                <Accordion type="multiple" className="w-full">
+                  {navGroups.map((group) =>
+                    group.children ? (
+                      <AccordionItem key={group.label} value={group.label} className="border-b border-border">
+                        <AccordionTrigger className="px-3 text-base font-medium text-foreground hover:no-underline hover:text-primary">
+                          {group.label}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <ul className="flex flex-col gap-1 pb-2">
+                            {group.children.map((child) => (
+                              <li key={child.label}>
+                                <NavLink
+                                  to={child.href}
+                                  onClick={closeMobileMenu}
+                                  className="block rounded-lg px-6 py-2.5 text-sm text-muted-foreground hover:bg-primary/5 hover:text-primary transition-colors"
+                                  activeClassName="text-primary font-semibold bg-primary/5"
+                                >
+                                  {child.label}
+                                </NavLink>
+                              </li>
+                            ))}
+                          </ul>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ) : (
+                      <div key={group.label} className="border-b border-border">
                         <NavLink
-                          key={subitem.label}
-                          to={subitem.href}
-                          className="block py-1 text-sm text-muted-foreground hover:text-primary transition-colors"
-                          activeClassName="text-primary font-semibold"
-                          onClick={() => setIsMobileMenuOpen(false)}
+                          to={group.href!}
+                          onClick={closeMobileMenu}
+                          className="block px-3 py-4 text-base font-medium text-foreground hover:text-primary transition-colors"
+                          activeClassName="text-primary"
                         >
-                          {subitem.label}
+                          {group.label}
                         </NavLink>
-                      ))}
-                    </div>
+                      </div>
+                    )
                   )}
+                </Accordion>
+
+                <div className="pt-6 flex flex-col gap-3">
+                  <Button variant="gold" className="w-full" asChild>
+                    <NavLink to="/apply" onClick={closeMobileMenu}>
+                      Apply Now
+                    </NavLink>
+                  </Button>
+                  <Button variant="outline" className="w-full" asChild>
+                    <NavLink to="/contact" onClick={closeMobileMenu}>
+                      Contact Admissions
+                    </NavLink>
+                  </Button>
                 </div>
-              ))}
-              <div className="pt-4 flex flex-col gap-3">
-                <Button variant="gold" className="w-full">
-                  Apply Now
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Contact Admissions
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </nav>
 
       <AlertDialog open={isPortalOpen} onOpenChange={setIsPortalOpen}>

@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -99,6 +100,16 @@ export default function Colleges() {
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const visiblePrograms = 3;
+  const location = useLocation();
+
+  // Support deep-linking from the Academics nav (e.g. /colleges#schools, /colleges#programs)
+  useEffect(() => {
+    if (!location.hash) return;
+    const target = document.querySelector(location.hash);
+    if (target) {
+      window.setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+    }
+  }, [location.hash]);
 
   // Handle coming soon category click
   const handleCategoryClick = (category: typeof programCategories[0]) => {
@@ -332,7 +343,7 @@ export default function Colleges() {
       </section>
 
       {/* Schools & Colleges - Enhanced with Filters */}
-      <section className="py-20 bg-background" id="schools">
+      <section className="py-20 bg-background scroll-mt-28" id="schools">
         <div className="container">
           <div className="text-center mb-14">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
@@ -414,12 +425,12 @@ export default function Colleges() {
                     <div className="flex items-center gap-2 text-sm">
                       <MapPin className="h-4 w-4 text-muted-foreground" />
                       <span className="text-foreground font-medium">
-                        {school.location === "Engineering Quad" ? "5th Street, Beachside, Mon-Lib" :
-                         school.location === "Business District" ? "Dixville, Liberia" :
-                         school.location === "Main Quad" ? "5th Street, Beachside, Mon-Lib" :
-                         school.location === "Medical Campus" ? "Dixville, Liberia" :
-                         school.location === "Law Quad" ? "5th Street, Beachside, Mon-Lib" :
-                         school.location === "Arts District" ? "Dixville, Liberia" :
+                        {school.location === "Engineering Quad" ? "5th Street & Dixville, Monrovia, Liberia" :
+                         school.location === "Business District" ? "5th Street & Dixville, Monrovia, Liberia" :
+                         school.location === "Main Quad" ? "5th Street & Dixville, Monrovia, Liberia" :
+                         school.location === "Medical Campus" ? "5th Street & Dixville, Monrovia, Liberia" :
+                         school.location === "Law Quad" ? "5th Street & Dixville, Monrovia, Liberia" :
+                         school.location === "Arts District" ? "5th Street & Dixville, Monrovia, Liberia" :
                          school.location}
                       </span>
                     </div>
@@ -492,12 +503,12 @@ export default function Colleges() {
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Location</span>
                     <span className="font-medium text-right">
-                      {selectedSchool.location === "Engineering Quad" ? "5th Street, Beachside, Mon-Lib" :
-                       selectedSchool.location === "Business District" ? "Dixville, Liberia" :
-                       selectedSchool.location === "Main Quad" ? "5th Street, Beachside, Mon-Lib" :
-                       selectedSchool.location === "Medical Campus" ? "Dixville, Liberia" :
-                       selectedSchool.location === "Law Quad" ? "5th Street, Beachside, Mon-Lib" :
-                       selectedSchool.location === "Arts District" ? "Dixville, Liberia" :
+                      {selectedSchool.location === "Engineering Quad" ? "5th Street & Dixville, Monrovia, Liberia" :
+                       selectedSchool.location === "Business District" ? "5th Street & Dixville, Monrovia, Liberia" :
+                       selectedSchool.location === "Main Quad" ? "5th Street & Dixville, Monrovia, Liberia" :
+                       selectedSchool.location === "Medical Campus" ? "5th Street & Dixville, Monrovia, Liberia" :
+                       selectedSchool.location === "Law Quad" ? "5th Street & Dixville, Monrovia, Liberia" :
+                       selectedSchool.location === "Arts District" ? "5th Street & Dixville, Monrovia, Liberia" :
                        selectedSchool.location}
                     </span>
                   </div>
@@ -629,7 +640,7 @@ export default function Colleges() {
                   className="bg-green-50 border-green-200 text-green-700 hover:bg-green-100 hover:border-green-300 hover:text-green-800"
                   onClick={() => {
                     // WhatsApp link for Liberia
-                    const phoneNumber = "+231771234567";
+                    const phoneNumber = "+231777947739";
                     const message = `Hello! I'm interested in learning more about ${selectedSchool.name} programs.`;
                     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
                   }}
@@ -659,7 +670,7 @@ export default function Colleges() {
       )}
 
       {/* Featured Programs*/}
-      <section className="py-20 bg-card">
+      <section className="py-20 bg-card scroll-mt-28" id="programs">
         <div className="container">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
             <div>
@@ -789,40 +800,6 @@ export default function Colleges() {
                 }`}
                 aria-label={`Go to slide ${i + 1}`}
               />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Statistics Banner - Enhanced */}
-      <section className="py-16 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-heading font-bold text-foreground mb-3">
-              By The Numbers
-            </h3>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our commitment to excellence is reflected in these key statistics
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {statistics.map((stat) => (
-              <div 
-                key={stat.label} 
-                className="bg-card/50 backdrop-blur-sm rounded-xl border border-border p-6 text-center hover:border-primary/30 hover:shadow-card transition-all duration-300"
-              >
-                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                  <stat.icon className="h-6 w-6 text-primary" />
-                </div>
-                <div className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-2">
-                  {stat.value}
-                </div>
-                <div className="font-medium text-foreground mb-1">{stat.label}</div>
-                {stat.description && (
-                  <div className="text-xs text-muted-foreground">{stat.description}</div>
-                )}
-              </div>
             ))}
           </div>
         </div>
@@ -1128,38 +1105,15 @@ export default function Colleges() {
             Join thousands of students who have transformed their futures at our university
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="purple" size="lg" className="group">
               Apply Now
               <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button variant="hero-secondary" size="lg">
-              <Calendar className="h-5 w-5 mr-2" />
-              Schedule a Visit
-            </Button>
-            <Button variant="hero-secondary" size="lg">
               <Download className="h-5 w-5 mr-2" />
               Download Brochure
             </Button>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent mb-1">97%</div>
-              <div className="text-sm text-primary-foreground/80">Student Satisfaction</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent mb-1">$85K</div>
-              <div className="text-sm text-primary-foreground/80">Avg Starting Salary</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent mb-1">70+</div>
-              <div className="text-sm text-primary-foreground/80">Countries Represented</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent mb-1">150+</div>
-              <div className="text-sm text-primary-foreground/80">Student Organizations</div>
-            </div>
           </div>
         </div>
       </section>

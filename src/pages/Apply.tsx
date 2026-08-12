@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import { FileUpload } from "@/components/ui/file-upload";
 import { ProgressSteps } from "@/components/ui/progress-steps";
 import { Checkbox } from "@/components/ui/checkbox";
 import { GraduationCap, User, FileText, Users, CheckCircle2, ArrowLeft, ArrowRight, Search } from "lucide-react";
+import { slugify } from "@/lib/slug";
 
 const steps = ["Program", "Personal Info", "Academic History", "Documents", "Review"];
 
@@ -19,8 +21,17 @@ const programs = [
 ];
 
 export default function Apply() {
+  const [searchParams] = useSearchParams();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedProgram, setSelectedProgram] = useState<string | null>(null);
+
+  // Pre-select a program when arriving from a program detail page (?program=slug)
+  useEffect(() => {
+    const requestedProgram = searchParams.get("program");
+    if (!requestedProgram) return;
+    const match = programs.find((prog) => slugify(prog.name) === requestedProgram || prog.id === requestedProgram);
+    if (match) setSelectedProgram(match.id);
+  }, [searchParams]);
   const [formData, setFormData] = useState({
     firstName: "", lastName: "", email: "", phone: "", dob: "", country: "",
     schoolName: "", gpa: "", degreeType: "", graduationYear: "",
@@ -133,8 +144,7 @@ export default function Apply() {
                     <FormField label="Date of Birth" type="date" value={formData.dob}
                       onChange={(e) => setFormData({ ...formData, dob: e.target.value })} />
                     <SelectField label="Country" options={[
-                      { value: "us", label: "United States" },
-                      { value: "ca", label: "Canada" },
+                      { value: "lr", label: "Liberia" },
                       { value: "other", label: "Other" },
                     ]} value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })} />
                   </div>
@@ -150,7 +160,7 @@ export default function Apply() {
                   <FormField label="School Name" required value={formData.schoolName}
                     onChange={(e) => setFormData({ ...formData, schoolName: e.target.value })} />
                   <div className="grid md:grid-cols-3 gap-4">
-                    <FormField label="GPA" required value={formData.gpa}
+                    <FormField label="AVG" required value={formData.gpa}
                       onChange={(e) => setFormData({ ...formData, gpa: e.target.value })} />
                     <SelectField label="Degree Type" options={[
                       { value: "hs", label: "High School" },

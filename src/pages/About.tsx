@@ -1,22 +1,16 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FormField, TextareaField, SelectField } from "@/components/ui/form-field";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { FormField } from "@/components/ui/form-field";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
   History, Target, Award, Users, Building, Leaf, Globe, Heart,
-  Mail, MapPin, Calendar, CheckCircle2, ChevronRight,
+  Mail, MapPin, Calendar, CheckCircle2, ChevronRight, UserRound,
 } from "lucide-react";
-
-const leadership = [
-  { name: "Dr. Robert Williams", title: "President", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face" },
-  { name: "Dr. Maria Garcia", title: "Provost", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face" },
-  { name: "Dr. James Chen", title: "Dean of Students", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" },
-];
 
 const milestones = [
   { year: "1850", event: "University founded with 12 students" },
@@ -34,7 +28,6 @@ const values = [
 ];
 
 export default function About() {
-  const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [tourDate, setTourDate] = useState("");
   const [pledges, setPledges] = useState<string[]>([]);
 
@@ -120,46 +113,45 @@ export default function About() {
         </div>
       </section>
 
-      {/* Leadership */}
+      {/* Meet Our Leadership */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container">
-          <h2 className="text-3xl font-heading font-bold text-center mb-12">University Leadership</h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {leadership.map((leader) => (
-              <Card key={leader.name} className="text-center card-hover">
-                <CardContent className="pt-6">
-                  <img src={leader.image} alt={leader.name}
-                    className="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-primary/20" />
-                  <h4 className="font-heading font-bold text-lg">{leader.name}</h4>
-                  <p className="text-sm text-primary mb-4">{leader.title}</p>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" size="sm">Contact Office</Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Contact {leader.title}'s Office</DialogTitle>
-                      </DialogHeader>
-                      <div className="space-y-4 pt-4">
-                        <FormField label="Your Name" value={contactForm.name}
-                          onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })} />
-                        <FormField label="Email" type="email" value={contactForm.email}
-                          onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })} />
-                        <SelectField label="Subject" options={[
-                          { value: "general", label: "General Inquiry" },
-                          { value: "media", label: "Media Request" },
-                          { value: "speaking", label: "Speaking Engagement" },
-                        ]} value={contactForm.subject}
-                          onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })} />
-                        <TextareaField label="Message" value={contactForm.message}
-                          onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })} />
-                        <Button variant="gold" className="w-full">Send Message</Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="text-center mb-12">
+            <Badge variant="gold" className="mb-4">Governance</Badge>
+            <h2 className="text-3xl font-heading font-bold mb-4">Meet Our Leadership</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Liberia Christian College is guided by dedicated leadership and a growing faculty and staff community.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            <Card className="text-center card-hover">
+              <CardContent className="pt-8 pb-6">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                  <UserRound className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-heading font-bold text-lg mb-2">College Leadership</h3>
+                <p className="text-sm text-muted-foreground mb-5">
+                  Meet the leaders guiding LCC's academic mission and institutional growth.
+                </p>
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/about/leadership">View Leadership</Link>
+                </Button>
+              </CardContent>
+            </Card>
+            <Card className="text-center card-hover">
+              <CardContent className="pt-8 pb-6">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Users className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-heading font-bold text-lg mb-2">Faculty & Staff</h3>
+                <p className="text-sm text-muted-foreground mb-5">
+                  Learn about the academic and administrative community that supports every student.
+                </p>
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/about/faculty-staff">View Faculty & Staff</Link>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
