@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -55,6 +56,11 @@ export default function Apply() {
   if (submitted) {
     return (
       <div className="min-h-screen bg-background">
+        <SEO
+          title="Apply"
+          description="Apply to Liberia Christian College."
+          noindex
+        />
         <Header />
         <section className="py-32">
           <div className="container max-w-lg text-center">
@@ -77,6 +83,11 @@ export default function Apply() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Apply"
+        description="Start your application to Liberia Christian College: select a program, submit your personal and academic information, and track your application status."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Apply" }]}
+      />
       <Header />
 
       <section className="gradient-hero pt-32 pb-12">

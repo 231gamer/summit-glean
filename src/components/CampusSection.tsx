@@ -27,6 +27,7 @@ export function CampusSection() {
                 src={campus.image}
                 alt={campus.name}
                 className="h-64 w-full object-cover"
+                loading="lazy"
               />
               <CardContent className="p-6">
                 <h3 className="text-xl font-heading font-semibold mb-2">
@@ -48,6 +49,7 @@ export function CampusSection() {
                 src={facility.image}
                 alt={facility.title}
                 className="h-56 w-full object-cover"
+                loading="lazy"
               />
               <CardContent className="p-6">
                 <h3 className="text-lg font-heading font-semibold mb-2">

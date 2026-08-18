@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { PageHero } from "@/components/PageHero";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "@/components/animations";
 import { User, Users } from "lucide-react";
 import { leadership } from "@/data/leadership";
@@ -43,6 +45,7 @@ export default function Leadership() {
                         src={president.image}
                         alt={president.name}
                         className="w-40 h-40 rounded-full object-cover border-4 border-accent/40"
+                        loading="lazy"
                       />
                     ) : (
                       <div className="w-40 h-40 rounded-full bg-primary/10 border-4 border-dashed border-primary/30 flex items-center justify-center">
@@ -77,10 +80,13 @@ export default function Leadership() {
           <ScrollReveal direction="up">
             <Users className="h-10 w-10 text-primary mx-auto mb-4" />
             <h2 className="text-2xl font-heading font-bold text-foreground mb-3">Senior Leadership Team</h2>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground mb-6">
               Additional senior leadership profiles will be published here as LCC's organizational directory is
               confirmed. In the meantime, the Admissions Office can direct your inquiry to the right office.
             </p>
+            <Button variant="outline" asChild>
+              <Link to="/about/faculty-staff">Meet Our Faculty & Staff</Link>
+            </Button>
           </ScrollReveal>
         </div>
       </section>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,13 +12,10 @@ import {
   History, Target, Award, Users, Building, Leaf, Globe, Heart,
   Mail, MapPin, Calendar, CheckCircle2, ChevronRight, UserRound,
 } from "lucide-react";
+import { FOUNDING_YEAR } from "@/lib/seo";
 
 const milestones = [
-  { year: "1850", event: "University founded with 12 students" },
-  { year: "1920", event: "First graduate program established" },
-  { year: "1965", event: "Expanded to 10 colleges and schools" },
-  { year: "2000", event: "Launched online learning initiatives" },
-  { year: "2024", event: "Celebrating 174 years of excellence" },
+  { year: FOUNDING_YEAR, event: "Liberia Christian College founded" },
 ];
 
 const values = [
@@ -33,19 +31,24 @@ export default function About() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="About Liberia Christian College"
+        description="Learn about Liberia Christian College's mission, values, and leadership as an institution preparing men and women for ministry and professional discipline."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
+      />
       <Header />
 
       {/* Hero */}
       <section className="gradient-hero pt-32 pb-20 md:pt-40 md:pb-28">
         <div className="container">
           <div className="max-w-3xl">
-            <Badge variant="gold" className="mb-4">Est. 1850</Badge>
+            <Badge variant="gold" className="mb-4">Est. {FOUNDING_YEAR}</Badge>
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary-foreground mb-6">
-              About Our University
+              About Liberia Christian College
             </h1>
             <p className="text-lg text-primary-foreground/80 mb-8">
-              For over 170 years, we've been committed to academic excellence, groundbreaking research, 
-              and developing leaders who shape the future.
+              Liberia Christian College is committed to preparing men and women for ministry and
+              professional discipline through faith-centered, academically rigorous education.
             </p>
             <div className="flex gap-4">
               <Button variant="gold">Our History</Button>
@@ -79,11 +82,11 @@ export default function About() {
               </div>
             </div>
             <div className="relative">
-              <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=400&fit=crop"
-                alt="Campus" className="rounded-2xl shadow-elegant" />
+              <img src="/diville-main-campus.png"
+                alt="Liberia Christian College campus" className="rounded-2xl shadow-elegant" loading="lazy" />
               <div className="absolute -bottom-6 -left-6 bg-accent p-6 rounded-xl shadow-gold">
-                <div className="text-3xl font-heading font-bold text-accent-foreground">174</div>
-                <div className="text-sm text-accent-foreground/80">Years of Excellence</div>
+                <div className="text-3xl font-heading font-bold text-accent-foreground">{FOUNDING_YEAR}</div>
+                <div className="text-sm text-accent-foreground/80">Founded</div>
               </div>
             </div>
           </div>

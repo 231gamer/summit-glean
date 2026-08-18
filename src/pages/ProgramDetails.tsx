@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,9 +12,7 @@ import {
   Clock,
   Calendar,
   DollarSign,
-  Users,
   MapPin,
-  BookOpen,
   GraduationCap,
   Award,
   Briefcase,
@@ -29,7 +28,12 @@ import {
   Building,
 } from "lucide-react";
 
-// Mock program data
+import { featuredPrograms } from "@/data/colleges";
+import { slugify } from "@/lib/slug";
+import { CONTACT_EMAIL, CONTACT_PHONES } from "@/lib/seo";
+
+// Illustrative curriculum/outcomes content — real per-program data (title, degree,
+// school, description, image) comes from `featuredPrograms` and is matched by slug below.
 const programData = {
   slug: "computer-science",
   title: "Computer Science",
@@ -123,6 +127,7 @@ const countries = [
 
 export default function ProgramDetails() {
   const { slug } = useParams();
+  const program = featuredPrograms.find((p) => slugify(p.title) === slug);
   const [selectedYear, setSelectedYear] = useState<"year1" | "year2" | "year3" | "year4">("year1");
   const [compareList, setCompareList] = useState<string[]>([]);
   const [showInquiryForm, setShowInquiryForm] = useState(true);
@@ -146,6 +151,31 @@ export default function ProgramDetails() {
     country: "",
   });
   const [eligibilityChecked, setEligibilityChecked] = useState(false);
+
+  if (!program) {
+    return (
+      <div className="min-h-screen bg-background">
+        <SEO
+          title="Program Not Found"
+          description="The program you're looking for doesn't exist or may have moved."
+          noindex
+        />
+        <Header />
+        <section className="py-32">
+          <div className="container max-w-lg text-center">
+            <h1 className="text-3xl font-heading font-bold mb-4">Program Not Found</h1>
+            <p className="text-muted-foreground mb-8">
+              We couldn't find the program you're looking for. Explore all programs offered at LCC.
+            </p>
+            <Button variant="gold" asChild>
+              <Link to="/colleges#programs">View All Programs</Link>
+            </Button>
+          </div>
+        </section>
+        <Footer />
+      </div>
+    );
+  }
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -181,31 +211,42 @@ export default function ProgramDetails() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={program.title}
+        description={program.description}
+        image={program.image}
+        imageAlt={program.title}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Colleges & Schools", href: "/colleges#programs" },
+          { label: program.title },
+        ]}
+      />
       <Header />
 
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${programData.image})` }}
+          style={{ backgroundImage: `url(${program.image})` }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-primary-dark/95 via-primary/90 to-primary/80" />
         </div>
-        
+
         <div className="container relative">
           <div className="max-w-3xl">
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 text-sm text-primary-foreground/70 mb-6">
               <Link to="/" className="hover:text-accent transition-colors">Home</Link>
               <ChevronRight className="h-4 w-4" />
-              <Link to="/academics" className="hover:text-accent transition-colors">Academics</Link>
+              <Link to="/colleges#programs" className="hover:text-accent transition-colors">Colleges & Schools</Link>
               <ChevronRight className="h-4 w-4" />
-              <span className="text-primary-foreground">{programData.title}</span>
+              <span className="text-primary-foreground">{program.title}</span>
             </nav>
 
             <div className="flex flex-wrap items-center gap-3 mb-4">
-              <Badge variant="gold">{programData.degree}</Badge>
-              {programData.featured && (
+              <Badge variant="gold">{program.degree}</Badge>
+              {program.featured && (
                 <Badge className="bg-primary-foreground/20 text-primary-foreground border-0">
                   <Award className="h-3.5 w-3.5 mr-1" />
                   Featured Program
@@ -214,18 +255,18 @@ export default function ProgramDetails() {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary-foreground mb-4">
-              {programData.title}
+              {program.title}
             </h1>
             <p className="text-lg text-primary-foreground/80 mb-6">
-              {programData.school}
+              {program.school}
             </p>
             <p className="text-primary-foreground/70 mb-8 max-w-2xl">
-              {programData.description}
+              {program.description}
             </p>
 
             <div className="flex flex-wrap gap-4">
               <Button variant="gold" size="lg" asChild>
-                <Link to={`/apply?program=${encodeURIComponent(slug ?? programData.slug)}`}>
+                <Link to={`/apply?program=${encodeURIComponent(slugify(program.title))}`}>
                   Apply for This Program
                 </Link>
               </Button>
@@ -257,16 +298,7 @@ export default function ProgramDetails() {
                       </div>
                       <div>
                         <div className="text-sm text-muted-foreground">Duration</div>
-                        <div className="font-semibold">{programData.quickFacts.duration}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <BookOpen className="h-5 w-5 text-primary" />
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground">Credits</div>
-                        <div className="font-semibold">{programData.quickFacts.credits}</div>
+                        <div className="font-semibold">{program.duration ?? "4 years"}</div>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
@@ -275,7 +307,7 @@ export default function ProgramDetails() {
                       </div>
                       <div>
                         <div className="text-sm text-muted-foreground">Format</div>
-                        <div className="font-semibold">{programData.quickFacts.format}</div>
+                        <div className="font-semibold">{program.format ?? "Full-time"}</div>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
@@ -283,8 +315,8 @@ export default function ProgramDetails() {
                         <Calendar className="h-5 w-5 text-primary" />
                       </div>
                       <div>
-                        <div className="text-sm text-muted-foreground">Start Terms</div>
-                        <div className="font-semibold">{programData.quickFacts.startTerms.join(", ")}</div>
+                        <div className="text-sm text-muted-foreground">Application Deadline</div>
+                        <div className="font-semibold">{program.applicationDeadline ?? "Rolling"}</div>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
@@ -293,16 +325,7 @@ export default function ProgramDetails() {
                       </div>
                       <div>
                         <div className="text-sm text-muted-foreground">Tuition</div>
-                        <div className="font-semibold text-accent-foreground">{programData.quickFacts.tuition}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <Users className="h-5 w-5 text-primary" />
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground">Student-Faculty</div>
-                        <div className="font-semibold">{programData.quickFacts.studentFacultyRatio}</div>
+                        <div className="font-semibold text-accent-foreground">{program.tuition ?? "Contact Admissions"}</div>
                       </div>
                     </div>
                   </div>
@@ -313,7 +336,7 @@ export default function ProgramDetails() {
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-xl">Curriculum</CardTitle>
+                    <CardTitle className="text-xl">Sample Curriculum</CardTitle>
                     <Button variant="outline" size="sm">
                       <Download className="h-4 w-4 mr-2" />
                       Download Syllabus
@@ -394,6 +417,7 @@ export default function ProgramDetails() {
                           src={faculty.image}
                           alt={faculty.name}
                           className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-primary/20"
+                          loading="lazy"
                         />
                         <h4 className="font-semibold text-foreground">{faculty.name}</h4>
                         <p className="text-sm text-primary">{faculty.title}</p>
@@ -710,22 +734,22 @@ export default function ProgramDetails() {
                   <h4 className="font-semibold text-foreground mb-4">Need Help?</h4>
                   <div className="space-y-3">
                     <a
-                      href="tel:+1234567890"
+                      href={`tel:${CONTACT_PHONES[0]}`}
                       className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
                     >
                       <Phone className="h-4 w-4" />
-                      <span className="text-sm">(123) 456-7890</span>
+                      <span className="text-sm">{CONTACT_PHONES[0]}</span>
                     </a>
                     <a
-                      href="mailto:admissions@university.edu"
+                      href={`mailto:${CONTACT_EMAIL}`}
                       className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
                     >
                       <Mail className="h-4 w-4" />
-                      <span className="text-sm">admissions@university.edu</span>
+                      <span className="text-sm">{CONTACT_EMAIL}</span>
                     </a>
                     <div className="flex items-center gap-3 text-muted-foreground">
                       <Building className="h-4 w-4" />
-                      <span className="text-sm">Engineering Building, Room 101</span>
+                      <span className="text-sm">5th Street & Dixville, Monrovia, Liberia</span>
                     </div>
                   </div>
                 </CardContent>

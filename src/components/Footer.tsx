@@ -65,7 +65,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-primary/70 mb-6 leading-relaxed">
-              A world-class institution dedicated to academic excellence, groundbreaking research, and developing leaders who shape the future.
+              Preparing men and women for ministry and professional discipline through faith-centered, academically rigorous education.
             </p>
 
             {/* Newsletter */}

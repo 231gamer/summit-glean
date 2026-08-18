@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
@@ -98,12 +99,17 @@ export default function Scholarships() {
           <p className="text-primary-foreground/80 max-w-xl mx-auto mb-8">
             Reach out and our Admissions Office will help you understand your options.
           </p>
-          <Button variant="gold" size="lg" asChild>
-            <a href={`tel:${admissionsContact.phones[0].replace(/[^+\d]/g, "")}`}>
-              <Phone className="h-4 w-4 mr-2" />
-              Contact the Admissions Office
-            </a>
-          </Button>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button variant="gold" size="lg" asChild>
+              <a href={`tel:${admissionsContact.phones[0].replace(/[^+\d]/g, "")}`}>
+                <Phone className="h-4 w-4 mr-2" />
+                Contact the Admissions Office
+              </a>
+            </Button>
+            <Button variant="hero-secondary" size="lg" asChild>
+              <Link to="/admissions/how-to-apply">See How to Apply</Link>
+            </Button>
+          </div>
         </div>
       </section>
 

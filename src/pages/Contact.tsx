@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,6 +23,7 @@ import {
   Search,
   Building,
 } from "lucide-react";
+import { CONTACT_EMAIL, CONTACT_PHONES } from "@/lib/seo";
 
 const inquiryTypes = [
   { id: "admissions", label: "Admissions", icon: GraduationCap, description: "Questions about applying" },
@@ -32,11 +34,10 @@ const inquiryTypes = [
 ];
 
 const departments = [
-  { name: "Admissions Office", email: "admissions@university.edu", phone: "(123) 456-7890", location: "Main Hall 101" },
-  { name: "Financial Aid", email: "finaid@university.edu", phone: "(123) 456-7891", location: "Student Services 205" },
-  { name: "Registrar", email: "registrar@university.edu", phone: "(123) 456-7892", location: "Admin Building 102" },
-  { name: "Student Services", email: "studentservices@university.edu", phone: "(123) 456-7893", location: "Student Center 100" },
-  { name: "International Students", email: "international@university.edu", phone: "(123) 456-7894", location: "Global Center 301" },
+  { name: "Admissions Office", email: CONTACT_EMAIL, phone: CONTACT_PHONES[0], location: "5th Street & Dixville, Monrovia, Liberia" },
+  { name: "Financial Aid", email: CONTACT_EMAIL, phone: CONTACT_PHONES[0], location: "5th Street & Dixville, Monrovia, Liberia" },
+  { name: "Registrar", email: CONTACT_EMAIL, phone: CONTACT_PHONES[1], location: "5th Street & Dixville, Monrovia, Liberia" },
+  { name: "Student Services", email: CONTACT_EMAIL, phone: CONTACT_PHONES[1], location: "5th Street & Dixville, Monrovia, Liberia" },
 ];
 
 const timeSlots = ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM"];
@@ -64,6 +65,11 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Contact Us"
+        description="Get in touch with Liberia Christian College. Find our phone, email, and campus address, or send an inquiry to the Admissions Office."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
+      />
       <Header />
 
       {/* Hero */}
@@ -198,12 +204,12 @@ export default function Contact() {
                 <CardContent className="p-6">
                   <h4 className="font-semibold mb-4">Quick Contact</h4>
                   <div className="space-y-3 text-sm">
-                    <a href="tel:+1234567890" className="flex items-center gap-3 text-muted-foreground hover:text-primary">
-                      <Phone className="h-4 w-4" />(123) 456-7890</a>
-                    <a href="mailto:info@university.edu" className="flex items-center gap-3 text-muted-foreground hover:text-primary">
-                      <Mail className="h-4 w-4" />info@university.edu</a>
+                    <a href={`tel:${CONTACT_PHONES[0]}`} className="flex items-center gap-3 text-muted-foreground hover:text-primary">
+                      <Phone className="h-4 w-4" />{CONTACT_PHONES[0]}</a>
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="flex items-center gap-3 text-muted-foreground hover:text-primary">
+                      <Mail className="h-4 w-4" />{CONTACT_EMAIL}</a>
                     <div className="flex items-center gap-3 text-muted-foreground">
-                      <MapPin className="h-4 w-4" />123 University Avenue</div>
+                      <MapPin className="h-4 w-4" />5th Street & Dixville, Monrovia, Liberia</div>
                     <div className="flex items-center gap-3 text-muted-foreground">
                       <Clock className="h-4 w-4" />Mon-Fri: 8AM - 5PM</div>
                   </div>

@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -194,6 +195,11 @@ export default function Colleges() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Colleges & Schools"
+        description="Explore Liberia Christian College's schools and academic programs, from business and technology to Christian education, agriculture, and continuing education."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Colleges & Schools" }]}
+      />
       <Header />
       {/* Hero Section - Enhanced */}
   
@@ -201,8 +207,15 @@ export default function Colleges() {
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]"></div>
         
         <div className="container relative z-10">
-          {/* ... rest of the hero section content ... */}
-            
+          <div className="text-center mb-10">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-4">
+              Colleges & Schools at <span className="text-accent">Liberia Christian College</span>
+            </h1>
+            <p className="text-lg text-white/80 max-w-2xl mx-auto">
+              Explore LCC's academic schools and programs to find the path that fits your goals.
+            </p>
+          </div>
+
             {/* Enhanced Search Bar */}
             <div className="relative max-w-2xl mx-auto animate-fade-up stagger-2">
               <div className="relative group">
@@ -964,6 +977,7 @@ export default function Colleges() {
                       src={faculty.image}
                       alt={faculty.name}
                       className="w-16 h-16 rounded-full object-cover border-2 border-primary/20 group-hover:border-primary/50 transition-colors"
+                      loading="lazy"
                     />
                     <div>
                       <h4 className="font-bold text-foreground text-lg">{faculty.name}</h4>
@@ -1028,6 +1042,7 @@ export default function Colleges() {
                       src={testimonial.image}
                       alt={testimonial.name}
                       className="w-14 h-14 rounded-full object-cover border-2 border-primary/20"
+                      loading="lazy"
                     />
                     <div>
                       <div className="font-bold text-foreground">{testimonial.name}</div>

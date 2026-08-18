@@ -82,6 +82,7 @@ export function NewsEventsSection() {
                       src={item.image}
                       alt={item.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      loading="lazy"
                     />
                     <div className="absolute top-3 left-3">
                       <Badge 

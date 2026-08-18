@@ -1,0 +1,5 @@
+# Netlify SPA fallback: serve index.html for any route not matched by a static
+# file, so direct/deep links (e.g. /about, /programs/computer-networking) work
+# instead of returning a server-level 404. React Router then renders the real
+# page, or the NotFound page (which sets noindex) for genuinely missing routes.
+/*    /index.html   200
